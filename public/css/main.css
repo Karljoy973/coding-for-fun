@@ -1,0 +1,36 @@
+div {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-around;
+	font-family: cursive;
+	font-size: larger;
+	color: cadetblue;
+	background-color: blanchedalmond;
+}
+body {
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+}
+
+#calendar-window {
+	display: flex;
+	flex-flow: wrap-reverse;
+}
+
+#right-arrow {
+	color: black;
+	font-size: xx-large;
+	font-family: cursive;
+	width: inherit;
+	height: fit-content;
+}
+#left-arrow {
+	color: black;
+	font-size: xx-large;
+	font-family: cursive;
+	width: inherit;
+	height: fit-content;
+}

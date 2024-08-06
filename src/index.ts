@@ -1,78 +1,85 @@
-class _Debugger {
-	debugSection: HTMLElement;
-	private isActive: boolean;
-	constructor() {
-		this.debugSection = document.createElement("p");
-		document.body.appendChild(this.debugSection);
-		this.debugSection.style.position = "absolute";
-		this.debugSection.setAttribute("id", "debug-section");
-		let x = 0;
-		let y = 0;
-		this.debugSection.innerText = "debugger is activated";
-		this.isActive = false;
-	}
+console.log("hello world");
 
-	get debuggerField() {
-		return this.debugSection;
-	}
+//on a 12 mois
+//on a 5 semaines (la dernière n'est jamais finie)
+//on a 7 jours
+//1 jour = 1 div
+//1 semaine = 7 div (sauf pour la dernière semaine )
+//1 mois = 5 semaines
 
-	public debugHandler() {
-		console.log("hello world");
-	}
-	public init() {
-		document.addEventListener("mousedown", (e) => this.debugHandler());
-	}
-	public disable() {
-		document.removeEventListener("mousedown", (e) => this.debugHandler());
-	}
-}
+const NOMBRE_DE_SEMAINES = 5;
 
-let Debugger = new _Debugger();
+let calendarWindow = document.createElement("div");
+calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
+calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
+calendarWindow.setAttribute("id", "calendar-window");
+document.body.appendChild(calendarWindow);
+console.log(`${0.14 * +calendarWindow.clientWidth}`);
 
-Debugger.init();
+let semaine = [
+	"lundi",
+	"mardi",
+	"mercredi",
+	"jeudi",
+	"vendredi",
+	"samedi",
+	"dimanche",
+];
 
-namespace CoordinateSystem {
-	interface angle extends Number {}
+let mois = [semaine, semaine, semaine, semaine, semaine];
+mois.forEach((semaine, numSemaine) =>
+	semaine.forEach((j, numJour) => {
+		console.log(j);
+		let jour = document.createElement("div");
+		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
 
-	class polar {
-		public φ: angle;
-		private r: number;
-		public arcLength: number;
-		constructor();
-		constructor(φ: angle);
-		constructor(r: number, φ: number);
+		jour.style.width = `${0.14 * +calendarWindow.clientWidth}px`;
+		jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
+		calendarWindow.appendChild(jour);
+		jour.innerText = j;
+		jour.addEventListener("click", (e) => {
+			console.log(`tu as cliqué sur ${j}`);
+		});
+		jour.addEventListener("mouseover", (e) => {
+			jour.style.backgroundColor = "green";
+		});
+		jour.addEventListener("mouseleave", (e) => {
+			jour.style.backgroundColor = "blanchedalmond";
+		});
+		//feels like it does not work, go check w3c school layout to see how they do it
+		jour.addEventListener("mousedown", (e) => {
+			jour.style.width = `${0.14 * 3 * +calendarWindow.clientWidth}px`;
+			jour.style.height = `${0.14 * 3 * +calendarWindow.clientHeight}px`;
+			// document.body.appendChild(jour);
+		});
 
-		constructor(φ?: angle, r?: number) {
-			φ ? (this.φ = φ) : (this.φ = 0);
-			r ? (this.r = r) : (this.r = 1);
-			this.arcLength = this.r * Number.parseFloat(`${this.φ}`);
-		}
+		jour.addEventListener("mouseup", (e) => {
+			jour.style.width = `${0.14 * +calendarWindow.clientWidth}px`;
+			jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
+			// calendarWindow.appendChild(jour);
+		});
+	}),
+);
 
-		euclidianToPolar(e: euclidian): polar {
-			let _r: number;
-			let _φ: number;
-			if (!(e.x > 0.05 || (e.x < -0.05 && e.y > 0.05) || e.y < -0.05)) {
-				return new polar();
-			}
-			_r = Math.sqrt(e.x ** e.x + e.y ** e.y);
-			_φ = Math.acos(e.x / _r);
+let bandeau = document.createElement("div");
+bandeau.style.width = `${+calendarWindow.clientWidth}px`;
+bandeau.style.height = `${+calendarWindow.clientHeight}px`;
+bandeau.innerText = "Aout";
+calendarWindow.appendChild(bandeau);
 
-			return new polar(_r, _φ);
-		}
-	}
-	class euclidian {
-		x: number;
-		y: number;
-		constructor() {
-			this.x = 0;
-			this;
-			y = 0;
-		}
-	}
-	class cylindric {
-		constructor() {}
-	}
-	class spherical {
-		constructor() {}
-	}
-}
+let leftArrow = document.createElement("div");
+leftArrow.setAttribute("id", "left-arrow");
+leftArrow.innerText = "⬅️";
+bandeau.appendChild(leftArrow);
+
+//fix css
+let rightArrow = document.createElement("div");
+rightArrow.setAttribute("id", "right-arrow");
+rightArrow.innerText = "➡️";
+
+bandeau.appendChild(rightArrow);
+// rajouter les numéros de chaque jour
+//créer un bandeau avec le nom du mois et deux flèches
+//fixer le bandeau
+//reegarder commetn faire une fenetre qui sort au premier plan
+//créer le squelette d'un event
