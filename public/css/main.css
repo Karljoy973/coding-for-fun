@@ -1,7 +1,7 @@
-div {
+button {
 	display: flex;
 	flex-wrap: wrap;
-	align-content: space-around;
+	align-content: center;
 	font-family: cursive;
 	font-size: larger;
 	color: cadetblue;
@@ -15,22 +15,47 @@ body {
 	align-items: center;
 }
 
+div {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+}
+
 #calendar-window {
 	display: flex;
 	flex-flow: wrap-reverse;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
-#right-arrow {
+#arrow-button {
 	color: black;
 	font-size: xx-large;
 	font-family: cursive;
-	width: inherit;
 	height: fit-content;
+	width: 80px;
+	position: sticky;
+	margin: 10px;
 }
-#left-arrow {
-	color: black;
-	font-size: xx-large;
-	font-family: cursive;
-	width: inherit;
+.bandeau {
+	display: flex;
+	justify-content: space-between;
 	height: fit-content;
+	width: fit-content;
+	flex-direction: column;
+}
+
+button:hover {
+	color: cornflowerblue;
+}
+
+#b-div {
+	justify-content: center;
+}
+
+h2 {
+	font-family: cursive;
+	font-size: xx-large;
 }

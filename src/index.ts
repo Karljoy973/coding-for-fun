@@ -26,11 +26,91 @@ let semaine = [
 	"dimanche",
 ];
 
-let mois = [semaine, semaine, semaine, semaine, semaine];
-mois.forEach((semaine, numSemaine) =>
+const mois = [
+	"janvier",
+	"fevrier",
+	"mars",
+	"avril",
+	"mai",
+	"juin",
+	"juillet",
+	"aout",
+	"septembre",
+	"octobre",
+	"novembre",
+	"decembre",
+];
+
+let mIndex = 6; //iterateur ????
+
+let postIt: HTMLElement;
+
+let moisComposition = [semaine, semaine, semaine, semaine, semaine];
+
+let bandeau = document.createElement("div");
+bandeau.setAttribute("class", "bandeau");
+bandeau.style.width = `${+calendarWindow.clientWidth}px`;
+bandeau.style.height = `${0.3 * +calendarWindow.clientHeight}px`;
+
+calendarWindow.appendChild(bandeau);
+
+let bandeauText = document.createElement("h2");
+bandeauText.innerHTML = mois[mIndex];
+let bDiv = document.createElement("div");
+bDiv.setAttribute("id", "b-div");
+bDiv.appendChild(bandeauText);
+bandeau.appendChild(bDiv);
+
+let leftArrow = document.createElement("button");
+leftArrow.setAttribute("id", "left-arrow");
+leftArrow.innerText = "⬅️";
+bandeau.appendChild(leftArrow);
+
+leftArrow.addEventListener("mousedown", (e) => {
+	if (mIndex < 0) {
+		mIndex = mois.length - 1;
+	}
+	console.log(mIndex);
+	bandeauText.innerText = mois[mIndex];
+	mIndex--;
+});
+
+//fix css
+let rightArrow = document.createElement("button");
+rightArrow.setAttribute("id", "right-arrow");
+let arrowDiv = document.createElement("div");
+
+arrowDiv.appendChild(rightArrow);
+arrowDiv.appendChild(leftArrow);
+
+rightArrow.addEventListener("mousedown", (e) => {
+	if (mIndex == mois.length) {
+		mIndex = 0;
+	}
+	console.log(mIndex);
+	bandeauText.innerHTML = mois[mIndex];
+	mIndex++;
+});
+[rightArrow, leftArrow].forEach((e) => {
+	e.setAttribute("class", "arrow-button");
+	e.style.height = "60px";
+	e.addEventListener("click", (e) => console.log(e));
+	e.addEventListener(
+		"mouseover",
+		(ee) => (e.style.backgroundColor = "cornflowerblue"),
+	);
+	e.addEventListener(
+		"mouseleave",
+		(ed) => (e.style.backgroundColor = "blanchedalmond"),
+	);
+});
+bandeau.appendChild(arrowDiv);
+rightArrow.innerText = "➡️";
+
+moisComposition.forEach((semaine, numSemaine) =>
 	semaine.forEach((j, numJour) => {
 		console.log(j);
-		let jour = document.createElement("div");
+		let jour = document.createElement("button");
 		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
 
 		jour.style.width = `${0.14 * +calendarWindow.clientWidth}px`;
@@ -41,43 +121,27 @@ mois.forEach((semaine, numSemaine) =>
 			console.log(`tu as cliqué sur ${j}`);
 		});
 		jour.addEventListener("mouseover", (e) => {
-			jour.style.backgroundColor = "green";
+			jour.style.backgroundColor = "cornflowerblue";
 		});
 		jour.addEventListener("mouseleave", (e) => {
 			jour.style.backgroundColor = "blanchedalmond";
 		});
 		//feels like it does not work, go check w3c school layout to see how they do it
 		jour.addEventListener("mousedown", (e) => {
-			jour.style.width = `${0.14 * 3 * +calendarWindow.clientWidth}px`;
-			jour.style.height = `${0.14 * 3 * +calendarWindow.clientHeight}px`;
 			// document.body.appendChild(jour);
+			postIt = document.createElement("div");
+			postIt.style.zIndex = "-1";
+			document.body.appendChild(postIt);
 		});
 
 		jour.addEventListener("mouseup", (e) => {
-			jour.style.width = `${0.14 * +calendarWindow.clientWidth}px`;
-			jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
-			// calendarWindow.appendChild(jour);
+			[...document.body.childNodes.entries()]
+				.filter((e) => !(e[1] as HTMLElement).id)
+				.forEach((e) => document.body.removeChild(e[1] as Node));
 		});
+		// calendarWindow.appendChild(jour);
 	}),
 );
-
-let bandeau = document.createElement("div");
-bandeau.style.width = `${+calendarWindow.clientWidth}px`;
-bandeau.style.height = `${+calendarWindow.clientHeight}px`;
-bandeau.innerText = "Aout";
-calendarWindow.appendChild(bandeau);
-
-let leftArrow = document.createElement("div");
-leftArrow.setAttribute("id", "left-arrow");
-leftArrow.innerText = "⬅️";
-bandeau.appendChild(leftArrow);
-
-//fix css
-let rightArrow = document.createElement("div");
-rightArrow.setAttribute("id", "right-arrow");
-rightArrow.innerText = "➡️";
-
-bandeau.appendChild(rightArrow);
 // rajouter les numéros de chaque jour
 //créer un bandeau avec le nom du mois et deux flèches
 //fixer le bandeau
