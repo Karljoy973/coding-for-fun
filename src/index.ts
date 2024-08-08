@@ -158,3 +158,23 @@ moisComposition.forEach((semaine, numSemaine) =>
 //fixer le bandeau
 //reegarder commetn faire une fenetre qui sort au premier plan
 //créer le squelette d'un event
+
+class jour {
+	nom: string;
+	numero: number;
+	boutton: HTMLButtonElement;
+	pZone: HTMLParagraphElement;
+	numeroSpan: HTMLSpanElement;
+
+	mouseOverHandler() {}
+	mouseLeaveHandler() {}
+	mouseDownHandler() {}
+	mouseUpHandler() {}
+	constructor(nom: string, numero: number) {
+		this.nom = nom;
+		this.numero = numero;
+		this.boutton = document.createElement("button");
+		this.pZone = document.createElement("p");
+		this.numeroSpan = document.createElement("span");
+	}
+}
