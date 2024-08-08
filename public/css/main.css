@@ -1,11 +1,17 @@
 button {
 	display: flex;
 	flex-wrap: wrap;
-	align-content: center;
+	align-content: flex-end;
 	font-family: cursive;
-	font-size: larger;
+	font-size: x-large;
 	color: cadetblue;
 	background-color: blanchedalmond;
+	flex-direction: column-reverse;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+span {
+	font-size: small;
 }
 body {
 	display: flex;
@@ -22,6 +28,7 @@ div {
 }
 
 #calendar-window {
+	background-color: blanchedalmond;
 	display: flex;
 	flex-flow: wrap-reverse;
 	align-content: center;

@@ -14,7 +14,11 @@ calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
 calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
 calendarWindow.setAttribute("id", "calendar-window");
 document.body.appendChild(calendarWindow);
-console.log(`${0.14 * +calendarWindow.clientWidth}`);
+
+window.addEventListener("resize", (e) => {
+	calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
+	calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
+});
 
 let semaine = [
 	"lundi",
@@ -45,6 +49,8 @@ let mIndex = 6; //iterateur ????
 
 let postIt: HTMLElement;
 
+let annee: number = 2024;
+
 let moisComposition = [semaine, semaine, semaine, semaine, semaine];
 
 let bandeau = document.createElement("div");
@@ -55,7 +61,7 @@ bandeau.style.height = `${0.3 * +calendarWindow.clientHeight}px`;
 calendarWindow.appendChild(bandeau);
 
 let bandeauText = document.createElement("h2");
-bandeauText.innerHTML = mois[mIndex];
+bandeauText.innerHTML = `${mois[mIndex]} ${annee}`;
 let bDiv = document.createElement("div");
 bDiv.setAttribute("id", "b-div");
 bDiv.appendChild(bandeauText);
@@ -69,9 +75,10 @@ bandeau.appendChild(leftArrow);
 leftArrow.addEventListener("mousedown", (e) => {
 	if (mIndex < 0) {
 		mIndex = mois.length - 1;
+		annee--;
 	}
 	console.log(mIndex);
-	bandeauText.innerText = mois[mIndex];
+	bandeauText.innerText = `${mois[mIndex]} ${annee}`;
 	mIndex--;
 });
 
@@ -86,9 +93,10 @@ arrowDiv.appendChild(leftArrow);
 rightArrow.addEventListener("mousedown", (e) => {
 	if (mIndex == mois.length) {
 		mIndex = 0;
+		annee++;
 	}
 	console.log(mIndex);
-	bandeauText.innerHTML = mois[mIndex];
+	bandeauText.innerHTML = `${mois[mIndex]} ${annee}`;
 	mIndex++;
 });
 [rightArrow, leftArrow].forEach((e) => {
@@ -107,9 +115,11 @@ rightArrow.addEventListener("mousedown", (e) => {
 bandeau.appendChild(arrowDiv);
 rightArrow.innerText = "➡️";
 
+let numero: number = 10;
 moisComposition.forEach((semaine, numSemaine) =>
 	semaine.forEach((j, numJour) => {
-		console.log(j);
+		numero++;
+
 		let jour = document.createElement("button");
 		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
 
@@ -117,9 +127,10 @@ moisComposition.forEach((semaine, numSemaine) =>
 		jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
 		calendarWindow.appendChild(jour);
 		jour.innerText = j;
-		jour.addEventListener("click", (e) => {
-			console.log(`tu as cliqué sur ${j}`);
-		});
+		let nSpan = `<span id=jour-numero-${numero} >${numero}</span>`;
+
+		jour.innerHTML += nSpan;
+
 		jour.addEventListener("mouseover", (e) => {
 			jour.style.backgroundColor = "cornflowerblue";
 		});
