@@ -20,7 +20,7 @@ window.addEventListener("resize", (e) => {
 	calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
 });
 
-let semaine = [
+let semaineCompo = [
 	"lundi",
 	"mardi",
 	"mercredi",
@@ -30,7 +30,7 @@ let semaine = [
 	"dimanche",
 ];
 
-const mois = [
+const moisOpt = [
 	"janvier",
 	"fevrier",
 	"mars",
@@ -51,7 +51,13 @@ let postIt: HTMLElement;
 
 let annee: number = 2024;
 
-let moisComposition = [semaine, semaine, semaine, semaine, semaine];
+let moisComposition = [
+	semaineCompo,
+	semaineCompo,
+	semaineCompo,
+	semaineCompo,
+	semaineCompo,
+];
 
 let bandeau = document.createElement("div");
 bandeau.setAttribute("class", "bandeau");
@@ -61,7 +67,7 @@ bandeau.style.height = `${0.3 * +calendarWindow.clientHeight}px`;
 calendarWindow.appendChild(bandeau);
 
 let bandeauText = document.createElement("h2");
-bandeauText.innerHTML = `${mois[mIndex]} ${annee}`;
+bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
 let bDiv = document.createElement("div");
 bDiv.setAttribute("id", "b-div");
 bDiv.appendChild(bandeauText);
@@ -74,11 +80,11 @@ bandeau.appendChild(leftArrow);
 
 leftArrow.addEventListener("mousedown", (e) => {
 	if (mIndex < 0) {
-		mIndex = mois.length - 1;
+		mIndex = moisOpt.length - 1;
 		annee--;
 	}
 	console.log(mIndex);
-	bandeauText.innerText = `${mois[mIndex]} ${annee}`;
+	bandeauText.innerText = `${moisOpt[mIndex]} ${annee}`;
 	mIndex--;
 });
 
@@ -91,12 +97,12 @@ arrowDiv.appendChild(rightArrow);
 arrowDiv.appendChild(leftArrow);
 
 rightArrow.addEventListener("mousedown", (e) => {
-	if (mIndex == mois.length) {
+	if (mIndex == moisOpt.length) {
 		mIndex = 0;
 		annee++;
 	}
 	console.log(mIndex);
-	bandeauText.innerHTML = `${mois[mIndex]} ${annee}`;
+	bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
 	mIndex++;
 });
 [rightArrow, leftArrow].forEach((e) => {
@@ -116,9 +122,10 @@ bandeau.appendChild(arrowDiv);
 rightArrow.innerText = "➡️";
 
 let numero: number = 10;
-moisComposition.forEach((semaine, numSemaine) =>
-	semaine.forEach((j, numJour) => {
+moisComposition.forEach((semaineCompo, numSemaine) =>
+	semaineCompo.forEach((j, numJour) => {
 		numero++;
+		console.log(numero);
 
 		let jour = document.createElement("button");
 		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
@@ -127,9 +134,11 @@ moisComposition.forEach((semaine, numSemaine) =>
 		jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
 		calendarWindow.appendChild(jour);
 		jour.innerText = j;
-		let nSpan = `<span id=jour-numero-${numero} >${numero}</span>`;
+		let nSpan = `<span id=jour-numero-${numero} >${
+			numSemaine * (numJour + 1)
+		}</span>`;
 
-		jour.innerHTML += nSpan;
+		jour.innerHTML += nSpan; //à réfléchir
 
 		jour.addEventListener("mouseover", (e) => {
 			jour.style.backgroundColor = "cornflowerblue";
@@ -153,28 +162,254 @@ moisComposition.forEach((semaine, numSemaine) =>
 		// calendarWindow.appendChild(jour);
 	}),
 );
-// rajouter les numéros de chaque jour
-//créer un bandeau avec le nom du mois et deux flèches
-//fixer le bandeau
-//reegarder commetn faire une fenetre qui sort au premier plan
-//créer le squelette d'un event
 
-class jour {
-	nom: string;
-	numero: number;
-	boutton: HTMLButtonElement;
-	pZone: HTMLParagraphElement;
-	numeroSpan: HTMLSpanElement;
+[...calendarWindow.childNodes.entries()]
+	.map((e) => e[1])
+	.filter((e) => e instanceof HTMLButtonElement)
+	.map((e) => [...e.children][0])
+	.forEach((e, i) => (e.innerHTML = `${i}`)),
+	// rajouter les numéros de chaque jour
+	//créer un bandeau avec le nom du mois et deux flèches
+	//fixer le bandeau
+	//reegarder commetn faire une fenetre qui sort au premier plan
+	//créer le squelette d'un event
 
-	mouseOverHandler() {}
-	mouseLeaveHandler() {}
-	mouseDownHandler() {}
-	mouseUpHandler() {}
-	constructor(nom: string, numero: number) {
-		this.nom = nom;
-		this.numero = numero;
-		this.boutton = document.createElement("button");
-		this.pZone = document.createElement("p");
-		this.numeroSpan = document.createElement("span");
+	class joursOption {
+		public static joursOption = [
+			"lundi",
+			"mardi",
+			"mercredi",
+			"jeudi",
+			"vendredi",
+			"samedi",
+			"dimanche",
+		];
+	};
+
+type moisDataModel = {
+	mois:
+		| "janvier"
+		| "ferier"
+		| "mars"
+		| "avril"
+		| "mai"
+		| "juin"
+		| "juillet"
+		| "aout"
+		| "septembre"
+		| "octobre"
+		| "novembre"
+		| "decembre";
+	nombreJours: NumeroJour;
+};
+
+class moisOption {
+	constructor() {}
+	public moisOpt() {
+		return [
+			{ mois: "janvier" as keyof moisDataModel, nombreJours: 31 },
+			{ mois: "fevrier", nombreJours: 28 },
+			{ mois: "mars", nombreJours: 31 },
+			{ mois: "avril", nombreJours: 30 },
+			{ mois: "mai", nombreJours: 31 },
+			{ mois: "juin", nombreJours: 30 },
+			{ mois: "juillet", nombreJours: 31 },
+			{ mois: "aout", nombreJours: 31 },
+			{ mois: "septembre", nombreJours: 30 },
+			{ mois: "octobre", nombreJours: 31 },
+			{ mois: "novembre", nombreJours: 30 },
+			{ mois: "decembre", nombreJours: 31 },
+		] as moisDataModel[];
 	}
 }
+
+type NumeroJour =
+	| 1
+	| 2
+	| 3
+	| 4
+	| 5
+	| 6
+	| 7
+	| 8
+	| 9
+	| 10
+	| 11
+	| 12
+	| 13
+	| 14
+	| 15
+	| 16
+	| 17
+	| 18
+	| 19
+	| 20
+	| 21
+	| 22
+	| 23
+	| 24
+	| 25
+	| 26
+	| 27
+	| 28
+	| 29
+	| 30
+	| 31;
+type moisLongueur = 28 | 29 | 30 | 31;
+type semaineLongueur = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+// class jour {
+// 	nom: joursOption;
+// 	numero: NumeroJour;
+// 	annee: number;
+// 	mois: moisOption;
+// 	boutton: HTMLButtonElement;
+// 	pZone: HTMLParagraphElement;
+// 	numeroSpan: HTMLSpanElement;
+
+// 	public get NomJour(): joursOption {
+// 		return this.nom;
+// 	}
+
+// 	public set NomJour(value: joursOption) {
+// 		this.nom = value;
+// 	}
+
+// 	public getNumero(): NumeroJour {
+// 		return this.numero;
+// 	}
+
+// 	public set Numero(value: NumeroJour) {
+// 		this.numero = value;
+// 	}
+
+// 	public get Annee(): number {
+// 		return this.annee;
+// 	}
+
+// 	public set Annee(value: number) {
+// 		this.annee = value;
+// 	}
+
+// 	public get Mois(): moisOption {
+// 		return this.mois;
+// 	}
+
+// 	public set Mois(value: moisOption) {
+// 		this.mois = value;
+// 	}
+
+// 	public get Boutton(): HTMLButtonElement {
+// 		return this.boutton;
+// 	}
+
+// 	public set Boutton(value: HTMLButtonElement) {
+// 		this.boutton = value;
+// 	}
+
+// 	public get PZone(): HTMLParagraphElement {
+// 		return this.pZone;
+// 	}
+
+// 	public set PZone(value: HTMLParagraphElement) {
+// 		this.pZone = value;
+// 	}
+
+// 	public get NumeroSpan(): HTMLSpanElement {
+// 		return this.numeroSpan;
+// 	}
+
+// 	public set NumeroSpan(value: HTMLSpanElement) {
+// 		this.numeroSpan = value;
+// 	}
+
+// 	mouseOverHandler() {
+// 		// gere le css
+// 	}
+// 	mouseLeaveHandler() {
+// 		// gere le css
+// 	}
+// 	mouseDownHandler() {
+// 		// ecrit des specs
+// 	}
+// 	mouseUpHandler() {
+// 		// retourne des specs
+// 	}
+// 	constructor(
+// 		nom: joursOption,
+// 		numero: NumeroJour,
+// 		annee: number,
+// 		mois: moisOption,
+// 	) {
+// 		this.nom = nom;
+// 		this.numero = numero;
+// 		this.boutton = document.createElement("button");
+// 		this.pZone = document.createElement("p");
+// 		this.numeroSpan = document.createElement("span");
+// 		this.annee = annee;
+// 		this.mois = mois;
+// 	}
+// }
+
+// class sequenceJours {
+// 	public NOMBRE_DE_JOURS: NumeroJour;
+// 	constructor() {}
+// }
+
+// class semaine extends sequenceJours {
+// 	constructor() {
+// 		super();
+// 	}
+// }
+// class moisModel extends sequenceJours {
+// 	//modele du mois
+// 	//nbre jour, nom mois,
+// 	public moisData: moisOption;
+// 	public jourStockage: sequenceJours[];
+
+// 	constructor(name: string) {
+// 		super();
+// 		this.moisData = new moisOption();
+// 		this.jourStockage = [];
+// 		try {
+// 			this.NOMBRE_DE_JOURS = this.moisData
+// 				.moisOpt()
+// 				.filter((e) => e.mois == name)[0].nombreJours;
+// 		} catch (e) {
+// 			console.log("ce mois ne peut pas être initialise");
+// 			throw e;
+// 		}
+
+// 		for (let i = 0; i < 4; i++) {
+// 			//build semaine
+// 			let s = new semaine();
+// 			this.jourStockage.push(s);
+// 		}
+// 		//build jours restants
+// 		let s = new sequenceJours();
+// 		this.jourStockage.push(s);
+// 	}
+// }
+// class moisVue {
+// 	// style css
+// 	// event listener lies au style
+
+// 	private model: moisModel;
+// 	private moisControllers: any[];
+
+// 	public moisData: moisOption;
+// 	public jourStockage: sequenceJours[];
+
+// 	constructor() {}
+// }
+
+// class moisController {
+// 	// style css
+// 	// event listener lies au style
+
+// 	private model: moisModel;
+
+// 	constructor() {}
+// }
+
+//On va dire qu'on commence systematiquement au mois d'aout 2024 (v1)
