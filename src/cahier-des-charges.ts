@@ -70,5 +70,45 @@
  *
  * tout sera en front-end, il n'y aura pas de back-end, pas de sauvegarde de donénes.
  *
+ * à l'ouverture d'un jour :
+ *                               _________________________________________________________________________________
+ *                              |                                Mardi  X                                        |
+ *                              |________________________________________________________________________________|
+ *                              |      __________________________________________________________________     ^  |
+ *                              |     ||     |      |            |                                      |     |  |
+ *                              |     ||  7h |      |   Titre    |                                      |     |  |
+ *                              |     ||_____|------|            |--------------------------------------|     |  |
+ *                              |     ||     |      |            |                                      |     |  |
+ *                              |     ||  8h |      -------------                                       |     |  |
+ *                              |     ||_____-----------------------------------------------------------|     |  |
+ *                              |     ||     |                     ____________                         |     |  |
+ *                              |     ||  9h |                     |          |                         |     |  |
+ *                              |     ||_____----------------------| Titre    |-------------------------|     |  |
+ *                              |     ||     |                     |          |                         |     ||<------------ scrollbar
+ *                              |     || 10h |                     |          |                         |     |  |
+ *                              |     ||_____----------------------____________-------------------------|     |  |
+ *                              |     ||     |                                                          |     |  |
+ *                              |     || 11h |                                                          |     |  |
+ *                              |       __________________________________________________________________    v  |
+ *                              |                                                                                |
+ *                              |                                                                                |
+ *                              ----------------------------------------------------------------------------------
+ *
+ *width = 75% de la  largeur du calendrier 
+ *height = 75% de la hauteur du calendrier  
+ * je peux me passer d'une iframe (j'utilise la propriété scroll du div et je suis ok
+ *
+ * ################### Priorités ####################################
+//je dois rajouter un div dans lequel il y a le nom des jours de la semaine
+// je dois afficher seulement la première lettre de chaque jour dans l'element du jour
+// je dois créer un div pour chaque semaine et par la suite populer les semaines
+// je dois rajouter un élément de ui (comme un petit carré avec le nombre d'évenements liés à un jour en particulier)
+//sur le hover je vais juste mettre à jour le style de la bordure au lieu de changer la couleur de l'élément
+
+ *
+ *
+ *
+ *
+ *
  *
  */
