@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
+const { EmitHint } = require("typescript");
 const appDirectory = fs.realpathSync(process.cwd());
 
 module.exports = {
@@ -9,7 +10,13 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: "ts-loader",
+				use: {
+					loader: "ts-loader",
+					options: {
+						transpileOnly: true, // Skip type-checking in development mode
+						happyPackMode: true, // Enable HappyPack mode for faster builds
+					},
+				},
 				exclude: /node_modules/,
 			},
 			{
@@ -18,23 +25,30 @@ module.exports = {
 			},
 		],
 	},
+	cache: {
+		type: "filesystem", // Enables persistent caching
+	},
 	devServer: {
 		host: "0.0.0.0",
 
 		port: 4001, //port that we're using for local host (localhost:8080)
 
 		static: path.resolve(appDirectory, "./public"), //tells webpack to serve from the public folder
-
+		compress: true,
+		client: { overlay: true },
 		hot: true,
 
 		server: { type: "https" },
 	},
 	resolve: {
-		extensions: [".tsx", ".ts", ".js"],
+		extensions: [".ts", ".js"],
 	},
 	output: {
 		filename: "bundle.js",
 		path: path.resolve(__dirname, "dist"),
+	},
+	performance: {
+		hints: false,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -42,4 +56,6 @@ module.exports = {
 			template: path.resolve(appDirectory, "./public/index.html"),
 		}),
 	],
+	mode: "development",
+	devtool: process.env.NODE_ENV === "production" ? false : "source-map",
 };
