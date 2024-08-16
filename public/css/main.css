@@ -66,3 +66,16 @@ h2 {
 	font-family: cursive;
 	font-size: xx-large;
 }
+#tasks-div-element {
+	width: 250px;
+	height: fit-content;
+	min-height: 100px;
+	margin-left: 5%;
+}
+
+.post-it-container {
+	width: 80px;
+	height: 20px;
+	background-color: blue;
+	z-index: 5;
+}

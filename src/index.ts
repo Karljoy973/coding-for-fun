@@ -1,25 +1,13 @@
-console.log("hello world");
-
-//on a 12 mois
-//on a 5 semaines (la dernière n'est jamais finie)
-//on a 7 jours
-//1 jour = 1 div
-//1 semaine = 7 div (sauf pour la dernière semaine )
-//1 mois = 5 semaines
-
-const NOMBRE_DE_SEMAINES = 5;
-
-let calendarWindow = document.createElement("div");
-calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
-calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
-calendarWindow.setAttribute("id", "calendar-window");
-document.body.appendChild(calendarWindow);
-
-window.addEventListener("resize", (e) => {
-	calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
-	calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
-});
-
+type popUpSpecs = {
+	id: string;
+	width: string;
+	height: string;
+	position: string;
+	zIndex: string;
+	top: string;
+	left: string;
+	backgroundColor: string;
+};
 let semaineCompo = [
 	"lundi",
 	"mardi",
@@ -45,6 +33,8 @@ const moisOpt = [
 	"decembre",
 ];
 
+let savedEvents: any = [];
+
 let mIndex = 6; //iterateur ????
 
 let postIt: HTMLElement;
@@ -58,6 +48,19 @@ let moisComposition = [
 	semaineCompo,
 	semaineCompo,
 ];
+
+const NOMBRE_DE_SEMAINES = 5;
+
+let calendarWindow = document.createElement("div");
+calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
+calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
+calendarWindow.setAttribute("id", "calendar-window");
+document.body.appendChild(calendarWindow);
+
+window.addEventListener("resize", (e) => {
+	calendarWindow.style.width = `${0.7 * window.innerWidth}px`;
+	calendarWindow.style.height = `${0.7 * window.innerHeight}px`;
+});
 
 let bandeau = document.createElement("div");
 bandeau.setAttribute("class", "bandeau");
@@ -88,7 +91,6 @@ leftArrow.addEventListener("mousedown", (e) => {
 	mIndex--;
 });
 
-//fix css
 let rightArrow = document.createElement("button");
 rightArrow.setAttribute("id", "right-arrow");
 let arrowDiv = document.createElement("div");
@@ -121,12 +123,9 @@ rightArrow.addEventListener("mousedown", (e) => {
 bandeau.appendChild(arrowDiv);
 rightArrow.innerText = "➡️";
 
-let numero: number = 10;
+let numero: number = 0;
 moisComposition.forEach((semaineCompo, numSemaine) =>
 	semaineCompo.forEach((j, numJour) => {
-		numero++;
-		console.log(numero);
-
 		let jour = document.createElement("button");
 		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
 
@@ -134,282 +133,169 @@ moisComposition.forEach((semaineCompo, numSemaine) =>
 		jour.style.height = `${0.14 * +calendarWindow.clientHeight}px`;
 		calendarWindow.appendChild(jour);
 		jour.innerText = j;
-		let nSpan = `<span id=jour-numero-${numero} >${
-			numSemaine * (numJour + 1)
-		}</span>`;
 
-		jour.innerHTML += nSpan; //à réfléchir
-
+		//à réfléchir
 		jour.addEventListener("mouseover", (e) => {
 			jour.style.backgroundColor = "cornflowerblue";
 		});
 		jour.addEventListener("mouseleave", (e) => {
 			jour.style.backgroundColor = "blanchedalmond";
 		});
-		//feels like it does not work, go check w3c school layout to see how they do it
-		jour.addEventListener("mousedown", (e) => {
-			// document.body.appendChild(jour);
-			postIt = document.createElement("div");
-			postIt.style.zIndex = "-1";
-			document.body.appendChild(postIt);
-		});
 
-		jour.addEventListener("mouseup", (e) => {
-			[...document.body.childNodes.entries()]
-				.filter((e) => !(e[1] as HTMLElement).id)
-				.forEach((e) => document.body.removeChild(e[1] as Node));
-		});
+		jour.addEventListener("mouseup", (e) => {});
 		// calendarWindow.appendChild(jour);
+
+		jour.addEventListener("mousedown", (e) => {
+			let popUp: Element = document.getElementsByClassName(
+				"first-version-of-id-to-be-corrected-later",
+			)[0];
+			try {
+				<HTMLDivElement>popUp;
+				if (!popUp) throw new Error();
+				document.body.removeChild(popUp);
+			} catch (error) {
+				createPopUp();
+			}
+		});
 	}),
 );
 
-[...calendarWindow.childNodes.entries()]
+let jours = [...calendarWindow.childNodes.entries()]
 	.map((e) => e[1])
-	.filter((e) => e instanceof HTMLButtonElement)
-	.map((e) => [...e.children][0])
-	.forEach((e, i) => (e.innerHTML = `${i}`)),
-	// rajouter les numéros de chaque jour
-	//créer un bandeau avec le nom du mois et deux flèches
-	//fixer le bandeau
-	//reegarder commetn faire une fenetre qui sort au premier plan
-	//créer le squelette d'un event
+	.filter((e) => e instanceof HTMLButtonElement);
 
-	class joursOption {
-		public static joursOption = [
-			"lundi",
-			"mardi",
-			"mercredi",
-			"jeudi",
-			"vendredi",
-			"samedi",
-			"dimanche",
-		];
-	};
+jours.forEach((e, i) => {
+	let nSpan = `<span id=jour-numero-${numero} >${i + 1}</span>`;
+	e.innerHTML += nSpan;
+});
 
-type moisDataModel = {
-	mois:
-		| "janvier"
-		| "ferier"
-		| "mars"
-		| "avril"
-		| "mai"
-		| "juin"
-		| "juillet"
-		| "aout"
-		| "septembre"
-		| "octobre"
-		| "novembre"
-		| "decembre";
-	nombreJours: NumeroJour;
+jours.map((j, i) => {
+	if (i > 30) calendarWindow.removeChild(j);
+});
+
+let popUpViewModel: popUpSpecs = {
+	id: "default-pop-up-id",
+	width: "350px",
+	height: "500px",
+	position: "absolute",
+	zIndex: "3",
+	top: "300px",
+	left: `500px`,
+	backgroundColor: "blanchedalmond",
 };
 
-class moisOption {
-	constructor() {}
-	public moisOpt() {
-		return [
-			{ mois: "janvier" as keyof moisDataModel, nombreJours: 31 },
-			{ mois: "fevrier", nombreJours: 28 },
-			{ mois: "mars", nombreJours: 31 },
-			{ mois: "avril", nombreJours: 30 },
-			{ mois: "mai", nombreJours: 31 },
-			{ mois: "juin", nombreJours: 30 },
-			{ mois: "juillet", nombreJours: 31 },
-			{ mois: "aout", nombreJours: 31 },
-			{ mois: "septembre", nombreJours: 30 },
-			{ mois: "octobre", nombreJours: 31 },
-			{ mois: "novembre", nombreJours: 30 },
-			{ mois: "decembre", nombreJours: 31 },
-		] as moisDataModel[];
-	}
-}
+/**
+ * @function createPopUp - view on the popUpViewModel
+ * @param specs: popUpSpecs
+ * @returns: void
+ */
 
-type NumeroJour =
-	| 1
-	| 2
-	| 3
-	| 4
-	| 5
-	| 6
-	| 7
-	| 8
-	| 9
-	| 10
-	| 11
-	| 12
-	| 13
-	| 14
-	| 15
-	| 16
-	| 17
-	| 18
-	| 19
-	| 20
-	| 21
-	| 22
-	| 23
-	| 24
-	| 25
-	| 26
-	| 27
-	| 28
-	| 29
-	| 30
-	| 31;
-type moisLongueur = 28 | 29 | 30 | 31;
-type semaineLongueur = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+let createPopUp = (specs?: Partial<popUpSpecs>): void => {
+	let popUp = document.createElement("div");
+	popUp.className = "first-version-of-id-to-be-corrected-later";
 
-// class jour {
-// 	nom: joursOption;
-// 	numero: NumeroJour;
-// 	annee: number;
-// 	mois: moisOption;
-// 	boutton: HTMLButtonElement;
-// 	pZone: HTMLParagraphElement;
-// 	numeroSpan: HTMLSpanElement;
+	if (!!specs && !!specs.width) {
+		popUp.style.width = specs.width;
+	} else popUp.style.width = popUpViewModel.width;
 
-// 	public get NomJour(): joursOption {
-// 		return this.nom;
-// 	}
+	if (!!specs && !!specs.height) {
+		popUp.style.height = specs.height;
+	} else popUp.style.height = popUpViewModel.height;
 
-// 	public set NomJour(value: joursOption) {
-// 		this.nom = value;
-// 	}
+	if (!!specs && !!specs.position) {
+		popUp.style.position = specs.position;
+	} else popUp.style.position = popUpViewModel.position;
 
-// 	public getNumero(): NumeroJour {
-// 		return this.numero;
-// 	}
+	if (!!specs && !!specs.zIndex) {
+		popUp.style.zIndex = specs.zIndex;
+	} else popUp.style.zIndex == popUpViewModel.zIndex;
 
-// 	public set Numero(value: NumeroJour) {
-// 		this.numero = value;
-// 	}
+	if (!!specs && !!specs.top) {
+		popUp.style.top = specs.top;
+	} else popUp.style.top == popUpViewModel.top;
 
-// 	public get Annee(): number {
-// 		return this.annee;
-// 	}
+	if (!!specs && !!specs.left) {
+		popUp.style.left = specs.left;
+	} else popUp.style.left = popUpViewModel.left;
 
-// 	public set Annee(value: number) {
-// 		this.annee = value;
-// 	}
+	if (!!specs && !!specs.backgroundColor) {
+		popUp.style.backgroundColor = specs.backgroundColor;
+	} else popUp.style.backgroundColor = popUpViewModel.backgroundColor;
 
-// 	public get Mois(): moisOption {
-// 		return this.mois;
-// 	}
+	//add to type
+	popUp.style.borderWidth = "3px";
+	popUp.style.borderColor = " black";
+	popUp.style.borderStyle = "solid";
 
-// 	public set Mois(value: moisOption) {
-// 		this.mois = value;
-// 	}
+	document.body.appendChild(popUp);
 
-// 	public get Boutton(): HTMLButtonElement {
-// 		return this.boutton;
-// 	}
+	createTextArea(popUp);
 
-// 	public set Boutton(value: HTMLButtonElement) {
-// 		this.boutton = value;
-// 	}
+	createButton(popUp);
+};
 
-// 	public get PZone(): HTMLParagraphElement {
-// 		return this.pZone;
-// 	}
+type TextAreaSpecs = {};
+/**
+ * @function createTextArea
+ * @param parent
+ * @param specs
+ * @returns void
+ */
+let createTextArea = (
+	parent: HTMLElement,
+	specs?: Partial<TextAreaSpecs>,
+): void => {
+	let textArea = document.createElement("input");
+	textArea.id = "text-area";
+	textArea.setAttribute("type", "text");
+	textArea.style.width = "85%";
 
-// 	public set PZone(value: HTMLParagraphElement) {
-// 		this.pZone = value;
-// 	}
+	textArea.style.right = "5%";
+	textArea.style.height = "15%";
+	textArea.style.position = "absolute";
+	textArea.style.top = "5%";
+	parent.appendChild(textArea);
+};
 
-// 	public get NumeroSpan(): HTMLSpanElement {
-// 		return this.numeroSpan;
-// 	}
+//I want to create polymorphic functions
+type buttonSpecs = {};
+/**
+ * @function createButton
+ * @param parent
+ * @param specs
+ * @returns void
+ */
+let createButton = (
+	parent: HTMLElement,
+	specs?: Partial<buttonSpecs>,
+): void => {
+	let button = document.createElement("button");
+	button.style.width = "125px";
+	button.style.height = "75px";
 
-// 	public set NumeroSpan(value: HTMLSpanElement) {
-// 		this.numeroSpan = value;
-// 	}
+	button.style.position = "absolute";
+	button.style.bottom = "30px";
+	button.style.right = "20px";
 
-// 	mouseOverHandler() {
-// 		// gere le css
-// 	}
-// 	mouseLeaveHandler() {
-// 		// gere le css
-// 	}
-// 	mouseDownHandler() {
-// 		// ecrit des specs
-// 	}
-// 	mouseUpHandler() {
-// 		// retourne des specs
-// 	}
-// 	constructor(
-// 		nom: joursOption,
-// 		numero: NumeroJour,
-// 		annee: number,
-// 		mois: moisOption,
-// 	) {
-// 		this.nom = nom;
-// 		this.numero = numero;
-// 		this.boutton = document.createElement("button");
-// 		this.pZone = document.createElement("p");
-// 		this.numeroSpan = document.createElement("span");
-// 		this.annee = annee;
-// 		this.mois = mois;
-// 	}
-// }
+	button.innerText = "Valider";
+	button.onclick = (e: MouseEvent) => {
+		e.preventDefault();
+		let inputField = document.getElementById(
+			"text-area",
+		) as HTMLInputElement;
+		if (!!inputField && !!inputField.value) {
+			savedEvents.push(inputField.value);
+			inputField.value = "";
+			console.log(savedEvents);
+		}
+	};
 
-// class sequenceJours {
-// 	public NOMBRE_DE_JOURS: NumeroJour;
-// 	constructor() {}
-// }
+	parent.appendChild(button);
+};
 
-// class semaine extends sequenceJours {
-// 	constructor() {
-// 		super();
-// 	}
-// }
-// class moisModel extends sequenceJours {
-// 	//modele du mois
-// 	//nbre jour, nom mois,
-// 	public moisData: moisOption;
-// 	public jourStockage: sequenceJours[];
+//créer le squelette d'un evenement
 
-// 	constructor(name: string) {
-// 		super();
-// 		this.moisData = new moisOption();
-// 		this.jourStockage = [];
-// 		try {
-// 			this.NOMBRE_DE_JOURS = this.moisData
-// 				.moisOpt()
-// 				.filter((e) => e.mois == name)[0].nombreJours;
-// 		} catch (e) {
-// 			console.log("ce mois ne peut pas être initialise");
-// 			throw e;
-// 		}
-
-// 		for (let i = 0; i < 4; i++) {
-// 			//build semaine
-// 			let s = new semaine();
-// 			this.jourStockage.push(s);
-// 		}
-// 		//build jours restants
-// 		let s = new sequenceJours();
-// 		this.jourStockage.push(s);
-// 	}
-// }
-// class moisVue {
-// 	// style css
-// 	// event listener lies au style
-
-// 	private model: moisModel;
-// 	private moisControllers: any[];
-
-// 	public moisData: moisOption;
-// 	public jourStockage: sequenceJours[];
-
-// 	constructor() {}
-// }
-
-// class moisController {
-// 	// style css
-// 	// event listener lies au style
-
-// 	private model: moisModel;
-
-// 	constructor() {}
-// }
-
-//On va dire qu'on commence systematiquement au mois d'aout 2024 (v1)
+let divTasks = document.createElement("div");
+divTasks.id += "tasks-div-element";
+document.body.appendChild(divTasks);
+let tasks = [];
