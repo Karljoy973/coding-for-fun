@@ -90,9 +90,16 @@
  *                              |     ||     |                                                          |     |  |
  *                              |     || 11h |                                                          |     |  |
  *                              |       __________________________________________________________________    v  |
- *                              |                                                                                |
- *                              |                                                                                |
+ *                              |                                      ____                                      |
+ *                              |      <------------------------------|___|------------------------------->      |
  *                              ----------------------------------------------------------------------------------
+ * 
+ * le popUp a : un header, des dimensions, un div central sur lequell on peut scroller, ce div contient une liste d'horaires par tranches d'1h, il y a une délimitation au 
+ * milieu de chaque horaire pour visualiser les demi-heures, il y a aussi la possibilité de placer des 'évènements', chaque évènement est représenté par un rectangle de 
+ * hauteur la durée de l'évènement et de largeur '1 colonne' on peut mettre plusieurs évènements sur le meme horaire, ils seront juxtaposés et on peut scroller horizontalement
+ * pour voir tous les évènements disponibles pour un horaire donné. Les horaires ont un ordre de priorité colonne 1 > colonne 2 > ... > colonne n
+ * on peut modifier l'ordre d'importance des évènements en intervertissant les évènements ensembles (click n drag) ou juste en appuyant sur le boutton 'intervertir' (voir icone)
+ * qui intervertit deux évènements juxtaposés  
  *
  *width = 75% de la  largeur du calendrier 
  *height = 75% de la hauteur du calendrier  
@@ -104,9 +111,12 @@
 // je dois créer un div pour chaque semaine et par la suite populer les semaines
 // je dois rajouter un élément de ui (comme un petit carré avec le nombre d'évenements liés à un jour en particulier)
 //sur le hover je vais juste mettre à jour le style de la bordure au lieu de changer la couleur de l'élément
-
+//regarder un full course css 
+retirer tous les ids de css 
+faire un css reset 
  *
- *
+ *#######  Plus tard : utiliser ma config firebase pour host le site sans utiliser de code angular ##### 
+ * je vais host en mode Webprojects.qjklfq.com/WebCalendar 
  *
  *
  *
