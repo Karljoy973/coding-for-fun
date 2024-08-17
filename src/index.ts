@@ -58,17 +58,13 @@ calendarWindow.style.width = `${calendrierModel.width}px`;
 calendarWindow.style.height = `${
 	calendrierModel.width * calendrierModel.ratio
 }px`;
-calendarWindow.setAttribute("class", "calendar-window");
+calendarWindow.setAttribute("id", "calendar-window");
 document.body.appendChild(calendarWindow);
 
-let MoisPanneauView = document.createElement("div");
-MoisPanneauView.setAttribute("class", "panneau-mois");
-calendarWindow.appendChild(MoisPanneauView);
-
-// window.addEventListener("resize", (e) => {
-// 	calendarWindow.style.width = `${0.7 * window.innerWidth}px`; //fixer ça
-// 	calendarWindow.style.height = `${0.7 * window.innerHeight}px`; //fixer ça
-// });
+window.addEventListener("resize", (e) => {
+	calendarWindow.style.width = `${0.7 * window.innerWidth}px`; //fixer ça
+	calendarWindow.style.height = `${0.7 * window.innerHeight}px`; //fixer ça
+});
 
 let bandeau = document.createElement("div");
 bandeau.setAttribute("class", "bandeau");
@@ -80,12 +76,12 @@ calendarWindow.appendChild(bandeau);
 let bandeauText = document.createElement("h2");
 bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
 let bDiv = document.createElement("div");
-bDiv.setAttribute("class", "b-div");
+bDiv.setAttribute("id", "b-div");
 bDiv.appendChild(bandeauText);
 bandeau.appendChild(bDiv);
 
 let leftArrow = document.createElement("button");
-leftArrow.setAttribute("class", "left-arrow");
+leftArrow.setAttribute("id", "left-arrow");
 leftArrow.innerText = "⬅️";
 bandeau.appendChild(leftArrow);
 
@@ -100,11 +96,11 @@ leftArrow.addEventListener("mousedown", (e) => {
 });
 
 let rightArrow = document.createElement("button");
-rightArrow.setAttribute("class", "right-arrow");
+rightArrow.setAttribute("id", "right-arrow");
 let arrowDiv = document.createElement("div");
 
-arrowDiv.appendChild(leftArrow);
 arrowDiv.appendChild(rightArrow);
+arrowDiv.appendChild(leftArrow);
 
 rightArrow.addEventListener("mousedown", (e) => {
 	if (mIndex == moisOpt.length) {
@@ -119,61 +115,56 @@ rightArrow.addEventListener("mousedown", (e) => {
 	e.setAttribute("class", "arrow-button");
 	e.style.height = "60px";
 	e.addEventListener("click", (e) => console.log(e));
-	e.addEventListener("mouseover", () => console.log("hello world"));
-	e.addEventListener("mouseleave", () => console.log("hello world"));
+	e.addEventListener(
+		"mouseover",
+		(ee) => (e.style.backgroundColor = "cornflowerblue"),
+	);
+	e.addEventListener(
+		"mouseleave",
+		(ed) => (e.style.backgroundColor = "blanchedalmond"),
+	);
 });
 bandeau.appendChild(arrowDiv);
 rightArrow.innerText = "➡️";
 
 let numero: number = 0;
-moisComposition.forEach((semaineCompo, numSemaine) => {
-	let s = document.createElement("div");
-	s.setAttribute("class", "semaine-div");
-	s.setAttribute("id", `semaine-${numSemaine}`);
-	let jours: HTMLDivElement[] = semaineCompo.map((e) => {
-		let jourJ = document.createElement("div");
-		jourJ.innerText += e;
-		return jourJ;
-	});
-	jours.forEach((e) => s.appendChild(e));
-	console.log(s);
-	MoisPanneauView.appendChild(s);
-	// semaineCompo.forEach((j, numJour) => {
-	// 	let jour = document.createElement("button");
-	// 	jour.setAttribute("class", `jour-de-semaine-${numSemaine}`);
+moisComposition.forEach((semaineCompo, numSemaine) =>
+	semaineCompo.forEach((j, numJour) => {
+		let jour = document.createElement("button");
+		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
 
-	// 	jour.style.width = `${0.14 * calendrierModel.width}px`;
-	// 	jour.style.height = `${
-	// 		0.14 * calendrierModel.width * calendrierModel.ratio
-	// 	}px`;
-	// 	s.appendChild(jour);
-	// 	jour.innerText = j;
+		jour.style.width = `${0.14 * calendrierModel.width}px`;
+		jour.style.height = `${
+			0.14 * calendrierModel.width * calendrierModel.ratio
+		}px`;
+		calendarWindow.appendChild(jour);
+		jour.innerText = j;
 
-	// 	//à réfléchir
-	// 	jour.addEventListener("mouseover", (e) => {});
-	// 	jour.addEventListener("mouseleave", (e) => {});
+		//à réfléchir
+		jour.addEventListener("mouseover", (e) => {
+			jour.style.backgroundColor = "cornflowerblue";
+		});
+		jour.addEventListener("mouseleave", (e) => {
+			jour.style.backgroundColor = "blanchedalmond";
+		});
 
-	// 	jour.addEventListener("mouseup", (e) => {});
-	// 	// calendarWindow.appendChild(jour);
+		jour.addEventListener("mouseup", (e) => {});
+		// calendarWindow.appendChild(jour);
 
-	// 	jour.addEventListener("mousedown", (e) => {
-	// 		let popUp: Element = document.getElementsByClassName(
-	// 			"first-version-of-id-to-be-corrected-later",
-	// 		)[0];
-	// 		try {
-	// 			<HTMLDivElement>popUp;
-	// 			if (!popUp) throw new Error();
-	// 			document.body.removeChild(popUp);
-	// 		} catch (error) {
-	// 			createPopUp();
-	// 		}
-	// 	});
-	// });
-});
-
-let monthView;
-let weekView;
-let dayView;
+		jour.addEventListener("mousedown", (e) => {
+			let popUp: Element = document.getElementsByClassName(
+				"first-version-of-id-to-be-corrected-later",
+			)[0];
+			try {
+				<HTMLDivElement>popUp;
+				if (!popUp) throw new Error();
+				document.body.removeChild(popUp);
+			} catch (error) {
+				createPopUp();
+			}
+		});
+	}),
+);
 
 let jours = [...calendarWindow.childNodes.entries()]
 	.map((e) => e[1])
