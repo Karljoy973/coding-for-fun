@@ -1,81 +1,11 @@
-button {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: flex-end;
+html {
 	font-family: cursive;
 	font-size: x-large;
-	color: cadetblue;
-	background-color: blanchedalmond;
-	flex-direction: column-reverse;
-	justify-content: space-between;
-	align-items: flex-end;
 }
-span {
-	font-size: small;
-}
+
 body {
-	display: flex;
-	flex-wrap: nowrap;
-	align-content: center;
-	justify-content: center;
-	align-items: center;
 }
 
-div {
-	display: flex;
-	justify-content: space-between;
-	flex-direction: row-reverse;
-}
-
-#calendar-window {
-	background-color: blanchedalmond;
-	display: flex;
-	flex-flow: wrap-reverse;
-	align-content: center;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
-#arrow-button {
-	color: black;
-	font-size: xx-large;
-	font-family: cursive;
-	height: fit-content;
-	width: 80px;
-	position: sticky;
-	margin: 10px;
-}
-.bandeau {
-	display: flex;
-	justify-content: space-between;
-	height: fit-content;
-	width: fit-content;
-	flex-direction: column;
-}
-
-button:hover {
-	color: cornflowerblue;
-}
-
-#b-div {
-	justify-content: center;
-}
-
-h2 {
-	font-family: cursive;
-	font-size: xx-large;
-}
-#tasks-div-element {
-	width: 250px;
-	height: fit-content;
-	min-height: 100px;
-	margin-left: 5%;
-}
-
-.post-it-container {
-	width: 80px;
-	height: 20px;
-	background-color: blue;
-	z-index: 5;
-}
+/*
+form element do not inherit css 
+*/
