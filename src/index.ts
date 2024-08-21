@@ -115,10 +115,7 @@ rightArrow.addEventListener("mousedown", (e) => {
 	e.setAttribute("class", "arrow-button");
 	e.style.height = "60px";
 	e.addEventListener("click", (e) => console.log(e));
-	e.addEventListener(
-		"mouseover",
-		(ee) => (e.style.backgroundColor = "cornflowerblue"),
-	);
+
 	e.addEventListener(
 		"mouseleave",
 		(ed) => (e.style.backgroundColor = "blanchedalmond"),
@@ -132,6 +129,7 @@ moisComposition.forEach((semaineCompo, numSemaine) =>
 	semaineCompo.forEach((j, numJour) => {
 		let jour = document.createElement("button");
 		jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
+		jour.setAttribute("class", "day-container");
 
 		jour.style.width = `${0.14 * calendrierModel.width}px`;
 		jour.style.height = `${
@@ -140,10 +138,6 @@ moisComposition.forEach((semaineCompo, numSemaine) =>
 		calendarWindow.appendChild(jour);
 		jour.innerText = j;
 
-		//à réfléchir
-		jour.addEventListener("mouseover", (e) => {
-			jour.style.backgroundColor = "cornflowerblue";
-		});
 		jour.addEventListener("mouseleave", (e) => {
 			jour.style.backgroundColor = "blanchedalmond";
 		});
@@ -153,7 +147,7 @@ moisComposition.forEach((semaineCompo, numSemaine) =>
 
 		jour.addEventListener("mousedown", (e) => {
 			let popUp: Element = document.getElementsByClassName(
-				"first-version-of-id-to-be-corrected-later",
+				"scheduler-container",
 			)[0];
 			try {
 				<HTMLDivElement>popUp;
@@ -161,6 +155,11 @@ moisComposition.forEach((semaineCompo, numSemaine) =>
 				document.body.removeChild(popUp);
 			} catch (error) {
 				createPopUp();
+				let header = document.getElementsByClassName(
+					"popup-header",
+				)[0] as HTMLDivElement;
+				let span = (e.target as HTMLDivElement).children[0];
+				header.innerHTML = `<p>${j} - ${span?.innerHTML}</p> `;
 			}
 		});
 	}),
@@ -181,8 +180,8 @@ jours.map((j, i) => {
 
 let popUpViewModel: popUpSpecs = {
 	id: "default-pop-up-id",
-	width: "350px",
-	height: "500px",
+	width: "900px",
+	height: "600px",
 	position: "absolute",
 	zIndex: "3",
 	top: "300px",
@@ -198,7 +197,7 @@ let popUpViewModel: popUpSpecs = {
 
 let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 	let popUp = document.createElement("div");
-	popUp.className = "first-version-of-id-to-be-corrected-later";
+	popUp.className = "scheduler-container";
 
 	if (!!specs && !!specs.width) {
 		popUp.style.width = specs.width;
@@ -233,9 +232,44 @@ let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 	popUp.style.borderColor = " black";
 	popUp.style.borderStyle = "solid";
 
-	document.body.appendChild(popUp);
+	let header = document.createElement("div");
+	header.className += "popup-header";
 
-	createTextArea(popUp);
+	let container = document.createElement("div");
+	container.setAttribute("class", "container");
+
+	let scheduler = document.createElement("div");
+	scheduler.className += "popup-scheduler";
+
+	let hourContainer = document.createElement("div");
+	hourContainer.setAttribute("class", "hour-container");
+	//suivre tuto scrollbar
+	let eventContainer = document.createElement("div");
+	eventContainer.setAttribute("class", "event-container");
+
+	let registerEvent = document.createElement("div");
+	registerEvent.setAttribute("class", "register-event");
+
+	for (let i = 0; i < 24; i++) {
+		let h = document.createElement("div");
+		h.setAttribute("class", "heure");
+		h.innerHTML += `<p>${i}h</p>`;
+		hourContainer.appendChild(h);
+	}
+	for (let i = 0; i < 47; i++) {
+		let e = document.createElement("div");
+		e.setAttribute("class", "event-place-holder");
+		eventContainer.appendChild(e);
+	}
+
+	scheduler.appendChild(hourContainer);
+	scheduler.appendChild(eventContainer);
+	popUp.appendChild(header);
+	container.appendChild(scheduler);
+	container.appendChild(registerEvent);
+	popUp.appendChild(container);
+
+	document.body.appendChild(popUp);
 
 	createButton(popUp);
 };

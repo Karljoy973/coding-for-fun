@@ -10,6 +10,14 @@ button {
 	justify-content: space-between;
 	align-items: flex-end;
 }
+button:hover {
+	border: 3px solid cornflowerblue;
+}
+.day-container {
+	margin: 5px;
+	border-radius: 5%;
+	box-shadow: 2%;
+}
 span {
 	font-size: small;
 }
@@ -78,4 +86,99 @@ h2 {
 	height: 20px;
 	background-color: blue;
 	z-index: 5;
+}
+.popup-header {
+	width: 90%;
+	height: 10%;
+	padding: 2%;
+	margin: 0px;
+	background-color: white;
+}
+
+.popup-scheduler {
+	width: 65%;
+	height: 55%;
+	background-color: white;
+	display: flex;
+	flex-direction: row;
+	overflow-y: scroll;
+	/* grid-template-columns: ;  check grid template */
+	/**
+	add scroll based animations 
+	is it possible to force focus on 7h ? 
+	*/
+}
+::-webkit-slider-thumb {
+}
+::-webkit-slider {
+}
+.hour-container {
+	position: sticky;
+	left: 0px;
+	width: 90px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+	/* overflow-y: scroll; */
+	overflow-x: clip;
+}
+.heure {
+	border: 1px solid black;
+	background-color: white;
+	min-width: 70px;
+	min-height: 70px;
+	width: 70px;
+	height: 70px;
+	justify-content: center;
+	justify-items: center;
+}
+.popup-header {
+	position: absolute;
+	top: 3%;
+	display: flex;
+	justify-content: center;
+}
+
+.event-place-holder {
+	background-color: lightgray;
+
+	border: 1px solid black;
+	border-radius: 5%;
+	min-width: 70px;
+	min-height: 35px;
+	width: 900px;
+	height: 35px;
+	border-radius: 0px;
+}
+.event-container {
+	display: flex;
+	flex-direction: column;
+	width: inherit;
+	align-items: center;
+}
+
+.scheduler-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.register-event {
+	width: 15%;
+	height: 60%;
+	background-color: white;
+	margin: 2%;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	width: fit-content;
+	height: inherit;
+	max-width: inherit;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: space-around;
 }
