@@ -55,7 +55,7 @@ let calendrierVue;
 
 let calendarWindow = document.createElement("div");
 calendarWindow.style.width = `${calendrierModel.width}px`;
-calendarWindow.style.height = `${
+calendarWindow.style.minHeight = `${
 	calendrierModel.width * calendrierModel.ratio
 }px`;
 calendarWindow.setAttribute("id", "calendar-window");
@@ -250,6 +250,9 @@ let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 	let registerEvent = document.createElement("div");
 	registerEvent.setAttribute("class", "register-event");
 
+	addEventForm(registerEvent);
+	createButton(registerEvent);
+
 	for (let i = 0; i < 24; i++) {
 		let h = document.createElement("div");
 		h.setAttribute("class", "heure");
@@ -259,6 +262,8 @@ let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 	for (let i = 0; i < 47; i++) {
 		let e = document.createElement("div");
 		e.setAttribute("class", "event-place-holder");
+		e.setAttribute("id", `p-h-${i + 1}`);
+
 		eventContainer.appendChild(e);
 	}
 
@@ -270,18 +275,66 @@ let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 	popUp.appendChild(container);
 
 	document.body.appendChild(popUp);
+};
 
-	createButton(popUp);
+let addEventForm = (parent: HTMLElement) => {
+	let eventForm = document.createElement("form");
+	eventForm.setAttribute("class", "event-form");
+
+	eventForm.addEventListener("input", (e) => {
+		e.preventDefault();
+	});
+
+	let eventTitle = document.createElement("h1");
+	eventTitle.setAttribute("class", "event");
+	eventTitle.setAttribute("class", "title");
+	eventTitle.setAttribute("class", "event-title");
+	eventTitle.innerText = "Nom de l'évènement";
+
+	let eventTitleInput = document.createElement("input");
+	eventTitleInput.setAttribute("class", "event");
+	eventTitleInput.setAttribute("class", "title");
+	eventTitleInput.setAttribute("class", "event-title-input");
+
+	let eventDescription = document.createElement("p");
+	eventDescription.setAttribute("class", "event");
+	eventDescription.setAttribute("class", "description");
+	eventDescription.setAttribute("class", "event-description");
+	eventDescription.innerText = "Description";
+
+	let eventDescriptionInput = document.createElement("input");
+	eventDescriptionInput.setAttribute("class", "event");
+	eventDescriptionInput.setAttribute("class", "description");
+	eventDescriptionInput.setAttribute("class", "event-description");
+
+	let eventHorraireDebut = document.createElement("input");
+	eventHorraireDebut.setAttribute("class", "horraire-input");
+	eventHorraireDebut.setAttribute("type", "date");
+
+	let eventHorraireFin = document.createElement("input");
+	eventHorraireFin.setAttribute("class", "horraire-input");
+	eventHorraireFin.setAttribute("type", "date");
+	//
+
+	[
+		eventTitle,
+		eventTitleInput,
+		eventDescription,
+		eventDescriptionInput,
+		eventHorraireDebut,
+		eventHorraireFin,
+	].forEach((e) => eventForm.appendChild(e));
+	parent.appendChild(eventForm);
 };
 
 type TextAreaSpecs = {};
 /**
- * @function createTextArea
+ * @function addTextArea
  * @param parent
  * @param specs
  * @returns void
  */
-let createTextArea = (
+let addTextArea = (
 	parent: HTMLElement,
 	specs?: Partial<TextAreaSpecs>,
 ): void => {
@@ -296,6 +349,11 @@ let createTextArea = (
 	textArea.style.top = "5%";
 	parent.appendChild(textArea);
 };
+
+//rajouter un form avec titre , heure, description
+//make wrong code look wrong
+//gérer les unsafe input comme tel
+// se renseinger sur la sécurisation des input
 
 //I want to create polymorphic functions
 type buttonSpecs = {};
@@ -331,7 +389,12 @@ let createButton = (
 	};
 
 	parent.appendChild(button);
+	button.setAttribute("onclick", `${printHelloWorld()}`);
 };
+
+jours.forEach((e) => {});
+
+let eventBucket = [];
 
 //créer le squelette d'un evenement
 
@@ -339,3 +402,13 @@ let divTasks = document.createElement("div");
 divTasks.id += "tasks-div-element";
 document.body.appendChild(divTasks);
 let tasks = [];
+
+let printHelloWorld = () => console.log("hello world");
+
+//je pense que je vais devoir utiliser du javascript pour modifier du css
+// Mr stark, I dont feel so well ....
+/**!SECTION
+ * check css slotted, cue, active, webkit stuff
+ * check event auxclick
+ *
+ */

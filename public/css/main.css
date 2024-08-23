@@ -43,6 +43,7 @@ div {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
+	height: fit-content;
 }
 
 .arrow-button {
@@ -96,12 +97,13 @@ h2 {
 }
 
 .popup-scheduler {
-	width: 65%;
-	height: 55%;
+	width: 25%;
+	height: 70%;
 	background-color: white;
 	display: flex;
 	flex-direction: row;
 	overflow-y: scroll;
+	transform: translate(-40%, 15%);
 	/* grid-template-columns: ;  check grid template */
 	/**
 	add scroll based animations 
@@ -166,7 +168,7 @@ h2 {
 }
 
 .register-event {
-	width: 15%;
+	width: 35%;
 	height: 60%;
 	background-color: white;
 	margin: 2%;
@@ -180,5 +182,24 @@ h2 {
 	max-width: inherit;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-content: space-around;
+	align-content: center;
+	align-items: center;
+}
+
+.event-place-holder:hover {
+	border: 2px solid blueviolet;
+	justify-content: normal;
+	align-items: normal;
+	justify-items: normal;
+}
+.presetup-event {
+	background-color: yellowgreen;
+	color: yellowgreen;
+	width: 25px;
+	height: 25px;
+	border: 2px solid lightskyblue;
+	z-index: 42;
+}
+
+.horraire-input {
 }
