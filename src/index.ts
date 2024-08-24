@@ -25,9 +25,7 @@ const moisOpt = [
 	"decembre",
 ];
 
-let savedEvents: any = [];
-
-let mIndex = 6; //iterateur ????
+let mIndex = 6;
 
 let annee: number = 2024;
 
@@ -81,8 +79,7 @@ leftArrow.addEventListener("mousedown", (e) => {
 	}
 	console.log(mIndex);
 	bandeauText.innerText = `${moisOpt[mIndex]} ${annee}`;
-	let currentMonth = bandeauText.innerText.split(" ")[0];
-	fixMonths(currentMonth);
+	fixMonths(bandeauText);
 	mIndex--;
 });
 
@@ -100,8 +97,7 @@ rightArrow.addEventListener("mousedown", (e) => {
 	}
 	console.log(mIndex);
 	bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
-	let currentMonth = bandeauText.innerText.split(" ")[0];
-	fixMonths(currentMonth);
+	fixMonths(bandeauText);
 	mIndex++;
 });
 [rightArrow, leftArrow].forEach((e) => {
@@ -167,7 +163,14 @@ jours.forEach((e, i) => {
 	e.innerHTML += nSpan;
 });
 
-let fixMonths = (currentMonth: string) => {
+/**
+ * @function fixMonths
+ * @param bandeau
+ * @returns void
+ */
+let fixMonths = (bandeau: HTMLElement): void => {
+	let currentMonth = bandeau.innerText.split(" ")[0];
+	let currentYear = bandeau.innerText.split(" ")[1];
 	switch (currentMonth) {
 		case moisOpt[0]:
 			//31j
@@ -182,8 +185,22 @@ let fixMonths = (currentMonth: string) => {
 			//28j- 29j
 			jours.map((j, i) => {
 				j.style.display = "flex";
-				if (i > 28 - 1) {
-					j.style.display = "none";
+				if (+currentYear % 4 == 0) {
+					if (+currentYear % 100 == 0) {
+						if (+currentYear % 400 == 0) {
+							if (i > 29 - 1) {
+								j.style.display = "none";
+							}
+						} else {
+							if (i > 28 - 1) {
+								j.style.display = "none";
+							}
+						}
+					} else {
+						if (i > 29 - 1) {
+							j.style.display = "none";
+						}
+					}
 				}
 			});
 			break;
@@ -229,7 +246,7 @@ let fixMonths = (currentMonth: string) => {
 			//31j
 			jours.map((j, i) => {
 				j.style.display = "flex";
-				if (i > 31 - 1 - 1) {
+				if (i > 31 - 1) {
 					j.style.display = "none";
 				}
 			});
@@ -288,8 +305,7 @@ let fixMonths = (currentMonth: string) => {
 	}
 };
 
-let currentMonth = bandeauText.innerText.split(" ")[0];
-fixMonths(currentMonth);
+fixMonths(bandeauText);
 
 let popUpViewModel: popUpSpecs = {
 	id: "default-pop-up-id",
@@ -340,50 +356,17 @@ let createPopUp = (specs?: Partial<popUpSpecs>): void => {
 		popUp.style.backgroundColor = specs.backgroundColor;
 	} else popUp.style.backgroundColor = popUpViewModel.backgroundColor;
 
-	//add to type
-	popUp.style.borderWidth = "3px";
-	popUp.style.borderColor = " black";
-	popUp.style.borderStyle = "solid";
-
 	let header = document.createElement("div");
 	header.className += "popup-header";
 
 	let container = document.createElement("div");
 	container.setAttribute("class", "container");
 
-	let scheduler = document.createElement("div");
-	scheduler.className += "popup-scheduler";
-
-	let hourContainer = document.createElement("div");
-	hourContainer.setAttribute("class", "hour-container");
-	//suivre tuto scrollbar
-	let eventContainer = document.createElement("div");
-	eventContainer.setAttribute("class", "event-container");
-
 	let registerEvent = document.createElement("div");
 	registerEvent.setAttribute("class", "register-event");
 
-	addEventForm(registerEvent);
-	createButton(registerEvent);
-
-	for (let i = 0; i < 24; i++) {
-		let h = document.createElement("div");
-		h.setAttribute("class", "heure");
-		h.innerHTML += `<p>${i}h</p>`;
-		hourContainer.appendChild(h);
-	}
-	for (let i = 0; i < 47; i++) {
-		let e = document.createElement("div");
-		e.setAttribute("class", "event-place-holder");
-		e.setAttribute("id", `p-h-${i + 1}`);
-
-		eventContainer.appendChild(e);
-	}
-
-	scheduler.appendChild(hourContainer);
-	scheduler.appendChild(eventContainer);
 	popUp.appendChild(header);
-	container.appendChild(scheduler);
+	addScheduler(container);
 	container.appendChild(registerEvent);
 	popUp.appendChild(container);
 
@@ -440,6 +423,48 @@ let addEventForm = (parent: HTMLElement) => {
 	parent.appendChild(eventForm);
 };
 
+let addHourContaner = (parent: HTMLElement) => {
+	let hourContainer = document.createElement("div");
+	hourContainer.setAttribute("class", "hour-container");
+	for (let i = 0; i < 24; i++) {
+		let h = document.createElement("div");
+		h.setAttribute("class", "heure");
+		h.innerHTML += `<p>${i}h</p>`;
+		hourContainer.appendChild(h);
+	}
+	parent.appendChild(hourContainer);
+};
+
+let addEventContainer = (parent: HTMLElement) => {
+	let eventContainer = document.createElement("div");
+	eventContainer.setAttribute("class", "event-container");
+	for (let i = 0; i < 47; i++) {
+		let e = document.createElement("div");
+		e.setAttribute("class", "event-place-holder");
+		e.setAttribute("id", `p-h-${i + 1}`);
+
+		eventContainer.appendChild(e);
+	}
+
+	parent.appendChild(eventContainer);
+};
+
+let addScheduler = (parent: HTMLElement) => {
+	let scheduler = document.createElement("div");
+	scheduler.className += "popup-scheduler";
+
+	let registerEvent = document.createElement("div");
+	registerEvent.setAttribute("class", "register-event");
+
+	addEventForm(registerEvent);
+	addButton(registerEvent);
+
+	addHourContaner(scheduler);
+	addEventContainer(scheduler);
+
+	parent.appendChild(scheduler);
+};
+
 type TextAreaSpecs = {};
 /**
  * @function addTextArea
@@ -471,15 +496,12 @@ let addTextArea = (
 //I want to create polymorphic functions
 type buttonSpecs = {};
 /**
- * @function createButton
+ * @function addButton
  * @param parent
  * @param specs
  * @returns void
  */
-let createButton = (
-	parent: HTMLElement,
-	specs?: Partial<buttonSpecs>,
-): void => {
+let addButton = (parent: HTMLElement, specs?: Partial<buttonSpecs>): void => {
 	let button = document.createElement("button");
 	button.style.width = "125px";
 	button.style.height = "75px";
@@ -499,14 +521,6 @@ let createButton = (
 
 	parent.appendChild(button);
 };
-
-let eventBucket = [];
-
-//créer le squelette d'un evenement
-
-let divTasks = document.createElement("div");
-divTasks.id += "tasks-div-element";
-document.body.appendChild(divTasks);
 
 //je pense que je vais devoir utiliser du javascript pour modifier du css
 // Mr stark, I dont feel so well ....
