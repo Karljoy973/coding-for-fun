@@ -59,7 +59,7 @@ div {
 	display: flex;
 	justify-content: space-between;
 	height: fit-content;
-	width: fit-content;
+	width: 100%;
 	flex-direction: column;
 }
 

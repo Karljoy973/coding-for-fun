@@ -1,7 +1,8 @@
 {
 	"main": "./src/index.ts",
 	"scripts": {
-		"start": "npx webpack serve  --mode=development"
+		"start": "npx webpack serve  --mode=development",
+		"build": "npx webpack --config webpack.config.js"
 	},
 	"devDependencies": {
 		"css-loader": "^7.1.2",

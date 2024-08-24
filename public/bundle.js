@@ -1,0 +1,348 @@
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it uses a non-standard name for the exports (exports).
+(() => {
+var exports = __webpack_exports__;
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+let semaineCompo = [
+    "lundi",
+    "mardi",
+    "mercredi",
+    "jeudi",
+    "vendredi",
+    "samedi",
+    "dimanche",
+];
+const moisOpt = [
+    "janvier",
+    "fevrier",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "aout",
+    "septembre",
+    "octobre",
+    "novembre",
+    "decembre",
+];
+let savedEvents = [];
+let mIndex = 6; //iterateur ????
+let annee = 2024;
+let moisComposition = [
+    semaineCompo,
+    semaineCompo,
+    semaineCompo,
+    semaineCompo,
+    semaineCompo,
+];
+const NOMBRE_DE_SEMAINES = 5;
+//time to split stuff I guess
+let calendrierModel = {
+    width: 1700,
+    ratio: 0.5625,
+    id: "",
+    class: "",
+    parent: document.body,
+    enfants: [],
+};
+let calendrierVue;
+let calendarWindow = document.createElement("div");
+calendarWindow.style.width = `${calendrierModel.width}px`;
+calendarWindow.style.minHeight = `${calendrierModel.width * calendrierModel.ratio}px`;
+calendarWindow.setAttribute("id", "calendar-window");
+document.body.appendChild(calendarWindow);
+window.addEventListener("resize", (e) => {
+    calendarWindow.style.width = `${0.7 * window.innerWidth}px`; //fixer ça
+    calendarWindow.style.height = `${0.7 * window.innerHeight}px`; //fixer ça
+});
+let bandeau = document.createElement("div");
+bandeau.setAttribute("class", "bandeau");
+bandeau.style.width = `${+calendarWindow.clientWidth}px`;
+bandeau.style.height = `${0.3 * +calendarWindow.clientHeight}px`;
+calendarWindow.appendChild(bandeau);
+let bandeauText = document.createElement("h2");
+bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
+let bDiv = document.createElement("div");
+bDiv.setAttribute("id", "b-div");
+bDiv.appendChild(bandeauText);
+bandeau.appendChild(bDiv);
+let leftArrow = document.createElement("button");
+leftArrow.setAttribute("id", "left-arrow");
+leftArrow.innerText = "⬅️";
+bandeau.appendChild(leftArrow);
+leftArrow.addEventListener("mousedown", (e) => {
+    if (mIndex < 0) {
+        mIndex = moisOpt.length - 1;
+        annee--;
+    }
+    console.log(mIndex);
+    bandeauText.innerText = `${moisOpt[mIndex]} ${annee}`;
+    mIndex--;
+});
+let rightArrow = document.createElement("button");
+rightArrow.setAttribute("id", "right-arrow");
+let arrowDiv = document.createElement("div");
+arrowDiv.appendChild(rightArrow);
+arrowDiv.appendChild(leftArrow);
+rightArrow.addEventListener("mousedown", (e) => {
+    if (mIndex == moisOpt.length) {
+        mIndex = 0;
+        annee++;
+    }
+    console.log(mIndex);
+    bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
+    mIndex++;
+});
+[rightArrow, leftArrow].forEach((e) => {
+    e.setAttribute("class", "arrow-button");
+    e.style.height = "60px";
+    e.addEventListener("click", (e) => console.log(e));
+    e.addEventListener("mouseleave", (ed) => (e.style.backgroundColor = "blanchedalmond"));
+});
+bandeau.appendChild(arrowDiv);
+rightArrow.innerText = "➡️";
+let numero = 0;
+moisComposition.forEach((semaineCompo, numSemaine) => semaineCompo.forEach((j, numJour) => {
+    let jour = document.createElement("button");
+    jour.setAttribute("id", `jour-#${numJour}-semaine-#${numSemaine}`);
+    jour.setAttribute("class", "day-container");
+    jour.style.width = `${0.14 * calendrierModel.width}px`;
+    jour.style.height = `${0.14 * calendrierModel.width * calendrierModel.ratio}px`;
+    calendarWindow.appendChild(jour);
+    jour.innerText = j;
+    jour.addEventListener("mouseleave", (e) => {
+        jour.style.backgroundColor = "blanchedalmond";
+    });
+    jour.addEventListener("mouseup", (e) => { });
+    // calendarWindow.appendChild(jour);
+    jour.addEventListener("mousedown", (e) => {
+        let popUp = document.getElementsByClassName("scheduler-container")[0];
+        try {
+            popUp;
+            if (!popUp)
+                throw new Error();
+            document.body.removeChild(popUp);
+        }
+        catch (error) {
+            createPopUp();
+            let header = document.getElementsByClassName("popup-header")[0];
+            let span = e.target.children[0];
+            header.innerHTML = `<p>${j} - ${span === null || span === void 0 ? void 0 : span.innerHTML}</p> `;
+        }
+    });
+}));
+let jours = [...calendarWindow.childNodes.entries()]
+    .map((e) => e[1])
+    .filter((e) => e instanceof HTMLButtonElement);
+jours.forEach((e, i) => {
+    let nSpan = `<span id=jour-numero-${numero} >${i + 1}</span>`;
+    e.innerHTML += nSpan;
+});
+jours.map((j, i) => {
+    if (i > 30)
+        calendarWindow.removeChild(j);
+});
+let popUpViewModel = {
+    id: "default-pop-up-id",
+    width: "900px",
+    height: "600px",
+    position: "absolute",
+    zIndex: "3",
+    top: "300px",
+    left: `500px`,
+    backgroundColor: "blanchedalmond",
+};
+/**
+ * @function createPopUp - view on the popUpViewModel
+ * @param specs: popUpSpecs
+ * @returns: void
+ */
+let createPopUp = (specs) => {
+    let popUp = document.createElement("div");
+    popUp.className = "scheduler-container";
+    if (!!specs && !!specs.width) {
+        popUp.style.width = specs.width;
+    }
+    else
+        popUp.style.width = popUpViewModel.width;
+    if (!!specs && !!specs.height) {
+        popUp.style.height = specs.height;
+    }
+    else
+        popUp.style.height = popUpViewModel.height;
+    if (!!specs && !!specs.position) {
+        popUp.style.position = specs.position;
+    }
+    else
+        popUp.style.position = popUpViewModel.position;
+    if (!!specs && !!specs.zIndex) {
+        popUp.style.zIndex = specs.zIndex;
+    }
+    else
+        popUp.style.zIndex == popUpViewModel.zIndex;
+    if (!!specs && !!specs.top) {
+        popUp.style.top = specs.top;
+    }
+    else
+        popUp.style.top == popUpViewModel.top;
+    if (!!specs && !!specs.left) {
+        popUp.style.left = specs.left;
+    }
+    else
+        popUp.style.left = popUpViewModel.left;
+    if (!!specs && !!specs.backgroundColor) {
+        popUp.style.backgroundColor = specs.backgroundColor;
+    }
+    else
+        popUp.style.backgroundColor = popUpViewModel.backgroundColor;
+    //add to type
+    popUp.style.borderWidth = "3px";
+    popUp.style.borderColor = " black";
+    popUp.style.borderStyle = "solid";
+    let header = document.createElement("div");
+    header.className += "popup-header";
+    let container = document.createElement("div");
+    container.setAttribute("class", "container");
+    let scheduler = document.createElement("div");
+    scheduler.className += "popup-scheduler";
+    let hourContainer = document.createElement("div");
+    hourContainer.setAttribute("class", "hour-container");
+    //suivre tuto scrollbar
+    let eventContainer = document.createElement("div");
+    eventContainer.setAttribute("class", "event-container");
+    let registerEvent = document.createElement("div");
+    registerEvent.setAttribute("class", "register-event");
+    addEventForm(registerEvent);
+    createButton(registerEvent);
+    for (let i = 0; i < 24; i++) {
+        let h = document.createElement("div");
+        h.setAttribute("class", "heure");
+        h.innerHTML += `<p>${i}h</p>`;
+        hourContainer.appendChild(h);
+    }
+    for (let i = 0; i < 47; i++) {
+        let e = document.createElement("div");
+        e.setAttribute("class", "event-place-holder");
+        e.setAttribute("id", `p-h-${i + 1}`);
+        eventContainer.appendChild(e);
+    }
+    scheduler.appendChild(hourContainer);
+    scheduler.appendChild(eventContainer);
+    popUp.appendChild(header);
+    container.appendChild(scheduler);
+    container.appendChild(registerEvent);
+    popUp.appendChild(container);
+    document.body.appendChild(popUp);
+};
+let addEventForm = (parent) => {
+    let eventForm = document.createElement("form");
+    eventForm.setAttribute("class", "event-form");
+    eventForm.addEventListener("input", (e) => {
+        e.preventDefault();
+    });
+    let eventTitle = document.createElement("h1");
+    eventTitle.setAttribute("class", "event");
+    eventTitle.setAttribute("class", "title");
+    eventTitle.setAttribute("class", "event-title");
+    eventTitle.innerText = "Nom de l'évènement";
+    let eventTitleInput = document.createElement("input");
+    eventTitleInput.setAttribute("class", "event");
+    eventTitleInput.setAttribute("class", "title");
+    eventTitleInput.setAttribute("class", "event-title-input");
+    let eventDescription = document.createElement("p");
+    eventDescription.setAttribute("class", "event");
+    eventDescription.setAttribute("class", "description");
+    eventDescription.setAttribute("class", "event-description");
+    eventDescription.innerText = "Description";
+    let eventDescriptionInput = document.createElement("input");
+    eventDescriptionInput.setAttribute("class", "event");
+    eventDescriptionInput.setAttribute("class", "description");
+    eventDescriptionInput.setAttribute("class", "event-description");
+    let eventHorraireDebut = document.createElement("input");
+    eventHorraireDebut.setAttribute("class", "horraire-input");
+    eventHorraireDebut.setAttribute("type", "date");
+    let eventHorraireFin = document.createElement("input");
+    eventHorraireFin.setAttribute("class", "horraire-input");
+    eventHorraireFin.setAttribute("type", "date");
+    //
+    [
+        eventTitle,
+        eventTitleInput,
+        eventDescription,
+        eventDescriptionInput,
+        eventHorraireDebut,
+        eventHorraireFin,
+    ].forEach((e) => eventForm.appendChild(e));
+    parent.appendChild(eventForm);
+};
+/**
+ * @function addTextArea
+ * @param parent
+ * @param specs
+ * @returns void
+ */
+let addTextArea = (parent, specs) => {
+    let textArea = document.createElement("input");
+    textArea.id = "text-area";
+    textArea.setAttribute("type", "text");
+    textArea.style.width = "85%";
+    textArea.style.right = "5%";
+    textArea.style.height = "15%";
+    textArea.style.position = "absolute";
+    textArea.style.top = "5%";
+    parent.appendChild(textArea);
+};
+/**
+ * @function createButton
+ * @param parent
+ * @param specs
+ * @returns void
+ */
+let createButton = (parent, specs) => {
+    let button = document.createElement("button");
+    button.style.width = "125px";
+    button.style.height = "75px";
+    button.style.position = "absolute";
+    button.style.bottom = "30px";
+    button.style.right = "20px";
+    button.innerText = "Valider";
+    button.onclick = (e) => {
+        e.preventDefault();
+        let inputField = document.getElementById("text-area");
+        if (!!inputField && !!inputField.value) {
+            savedEvents.push(inputField.value);
+            inputField.value = "";
+            console.log(savedEvents);
+        }
+    };
+    parent.appendChild(button);
+    button.setAttribute("onclick", `${printHelloWorld()}`);
+};
+jours.forEach((e) => { });
+let eventBucket = [];
+//créer le squelette d'un evenement
+let divTasks = document.createElement("div");
+divTasks.id += "tasks-div-element";
+document.body.appendChild(divTasks);
+let tasks = [];
+let printHelloWorld = () => console.log("hello world");
+//je pense que je vais devoir utiliser du javascript pour modifier du css
+// Mr stark, I dont feel so well ....
+/**!SECTION
+ * check css slotted, cue, active, webkit stuff
+ * check event auxclick
+ *
+ */
+
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=bundle.js.map
