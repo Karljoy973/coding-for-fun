@@ -1,14 +1,9 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it uses a non-standard name for the exports (exports).
-(() => {
-var exports = __webpack_exports__;
 /*!**********************!*\
   !*** ./src/index.ts ***!
   \**********************/
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 let semaineCompo = [
     "lundi",
     "mardi",
@@ -32,8 +27,7 @@ const moisOpt = [
     "novembre",
     "decembre",
 ];
-let savedEvents = [];
-let mIndex = 6; //iterateur ????
+let mIndex = 6;
 let annee = 2024;
 let moisComposition = [
     semaineCompo,
@@ -52,23 +46,15 @@ let calendrierModel = {
     parent: document.body,
     enfants: [],
 };
-let calendrierVue;
 let calendarWindow = document.createElement("div");
 calendarWindow.style.width = `${calendrierModel.width}px`;
-calendarWindow.style.minHeight = `${calendrierModel.width * calendrierModel.ratio}px`;
 calendarWindow.setAttribute("id", "calendar-window");
-document.body.appendChild(calendarWindow);
-window.addEventListener("resize", (e) => {
-    calendarWindow.style.width = `${0.7 * window.innerWidth}px`; //fixer ça
-    calendarWindow.style.height = `${0.7 * window.innerHeight}px`; //fixer ça
-});
 let bandeau = document.createElement("div");
 bandeau.setAttribute("class", "bandeau");
-bandeau.style.width = `${+calendarWindow.clientWidth}px`;
-bandeau.style.height = `${0.3 * +calendarWindow.clientHeight}px`;
+window.onpageshow = () => document.body.appendChild(calendarWindow);
 calendarWindow.appendChild(bandeau);
 let bandeauText = document.createElement("h2");
-bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
+bandeauText.innerText = `${moisOpt[mIndex]} ${annee}`;
 let bDiv = document.createElement("div");
 bDiv.setAttribute("id", "b-div");
 bDiv.appendChild(bandeauText);
@@ -84,6 +70,7 @@ leftArrow.addEventListener("mousedown", (e) => {
     }
     console.log(mIndex);
     bandeauText.innerText = `${moisOpt[mIndex]} ${annee}`;
+    fixMonths(bandeauText);
     mIndex--;
 });
 let rightArrow = document.createElement("button");
@@ -98,6 +85,7 @@ rightArrow.addEventListener("mousedown", (e) => {
     }
     console.log(mIndex);
     bandeauText.innerHTML = `${moisOpt[mIndex]} ${annee}`;
+    fixMonths(bandeauText);
     mIndex++;
 });
 [rightArrow, leftArrow].forEach((e) => {
@@ -145,10 +133,142 @@ jours.forEach((e, i) => {
     let nSpan = `<span id=jour-numero-${numero} >${i + 1}</span>`;
     e.innerHTML += nSpan;
 });
-jours.map((j, i) => {
-    if (i > 30)
-        calendarWindow.removeChild(j);
-});
+/**
+ * @function fixMonths
+ * @param bandeau
+ * @returns void
+ */
+let fixMonths = (bandeau) => {
+    let currentMonth = bandeau.innerText.split(" ")[0];
+    let currentYear = bandeau.innerText.split(" ")[1];
+    switch (currentMonth) {
+        case moisOpt[0]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[1]:
+            //28j- 29j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (+currentYear % 4 == 0) {
+                    if (+currentYear % 100 == 0) {
+                        if (+currentYear % 400 == 0) {
+                            if (i > 29 - 1) {
+                                j.style.display = "none";
+                            }
+                        }
+                        else {
+                            if (i > 28 - 1) {
+                                j.style.display = "none";
+                            }
+                        }
+                    }
+                    else {
+                        if (i > 29 - 1) {
+                            j.style.display = "none";
+                        }
+                    }
+                }
+            });
+            break;
+        case moisOpt[2]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[3]:
+            //30
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 30 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[4]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[5]: //30j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 30 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[6]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[7]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[8]:
+            //30j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 30 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[9]:
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        case moisOpt[10]:
+            //30j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 30 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+        default:
+            //decembre
+            //31j
+            jours.map((j, i) => {
+                j.style.display = "flex";
+                if (i > 31 - 1) {
+                    j.style.display = "none";
+                }
+            });
+            break;
+    }
+};
+fixMonths(bandeauText);
 let popUpViewModel = {
     id: "default-pop-up-id",
     width: "900px",
@@ -202,41 +322,14 @@ let createPopUp = (specs) => {
     }
     else
         popUp.style.backgroundColor = popUpViewModel.backgroundColor;
-    //add to type
-    popUp.style.borderWidth = "3px";
-    popUp.style.borderColor = " black";
-    popUp.style.borderStyle = "solid";
     let header = document.createElement("div");
     header.className += "popup-header";
     let container = document.createElement("div");
     container.setAttribute("class", "container");
-    let scheduler = document.createElement("div");
-    scheduler.className += "popup-scheduler";
-    let hourContainer = document.createElement("div");
-    hourContainer.setAttribute("class", "hour-container");
-    //suivre tuto scrollbar
-    let eventContainer = document.createElement("div");
-    eventContainer.setAttribute("class", "event-container");
     let registerEvent = document.createElement("div");
     registerEvent.setAttribute("class", "register-event");
-    addEventForm(registerEvent);
-    createButton(registerEvent);
-    for (let i = 0; i < 24; i++) {
-        let h = document.createElement("div");
-        h.setAttribute("class", "heure");
-        h.innerHTML += `<p>${i}h</p>`;
-        hourContainer.appendChild(h);
-    }
-    for (let i = 0; i < 47; i++) {
-        let e = document.createElement("div");
-        e.setAttribute("class", "event-place-holder");
-        e.setAttribute("id", `p-h-${i + 1}`);
-        eventContainer.appendChild(e);
-    }
-    scheduler.appendChild(hourContainer);
-    scheduler.appendChild(eventContainer);
     popUp.appendChild(header);
-    container.appendChild(scheduler);
+    addScheduler(container);
     container.appendChild(registerEvent);
     popUp.appendChild(container);
     document.body.appendChild(popUp);
@@ -282,6 +375,39 @@ let addEventForm = (parent) => {
     ].forEach((e) => eventForm.appendChild(e));
     parent.appendChild(eventForm);
 };
+let addHourContaner = (parent) => {
+    let hourContainer = document.createElement("div");
+    hourContainer.setAttribute("class", "hour-container");
+    for (let i = 0; i < 24; i++) {
+        let h = document.createElement("div");
+        h.setAttribute("class", "heure");
+        h.innerHTML += `<p>${i}h</p>`;
+        hourContainer.appendChild(h);
+    }
+    parent.appendChild(hourContainer);
+};
+let addEventContainer = (parent) => {
+    let eventContainer = document.createElement("div");
+    eventContainer.setAttribute("class", "event-container");
+    for (let i = 0; i < 47; i++) {
+        let e = document.createElement("div");
+        e.setAttribute("class", "event-place-holder");
+        e.setAttribute("id", `p-h-${i + 1}`);
+        eventContainer.appendChild(e);
+    }
+    parent.appendChild(eventContainer);
+};
+let addScheduler = (parent) => {
+    let scheduler = document.createElement("div");
+    scheduler.className += "popup-scheduler";
+    let registerEvent = document.createElement("div");
+    registerEvent.setAttribute("class", "register-event");
+    addEventForm(registerEvent);
+    addButton(registerEvent);
+    addHourContaner(scheduler);
+    addEventContainer(scheduler);
+    parent.appendChild(scheduler);
+};
 /**
  * @function addTextArea
  * @param parent
@@ -300,12 +426,12 @@ let addTextArea = (parent, specs) => {
     parent.appendChild(textArea);
 };
 /**
- * @function createButton
+ * @function addButton
  * @param parent
  * @param specs
  * @returns void
  */
-let createButton = (parent, specs) => {
+let addButton = (parent, specs) => {
     let button = document.createElement("button");
     button.style.width = "125px";
     button.style.height = "75px";
@@ -315,24 +441,11 @@ let createButton = (parent, specs) => {
     button.innerText = "Valider";
     button.onclick = (e) => {
         e.preventDefault();
-        let inputField = document.getElementById("text-area");
-        if (!!inputField && !!inputField.value) {
-            savedEvents.push(inputField.value);
-            inputField.value = "";
-            console.log(savedEvents);
-        }
+        let container = document.getElementsByClassName("scheduler-container")[0];
+        document.body.removeChild(container);
     };
     parent.appendChild(button);
-    button.setAttribute("onclick", `${printHelloWorld()}`);
 };
-jours.forEach((e) => { });
-let eventBucket = [];
-//créer le squelette d'un evenement
-let divTasks = document.createElement("div");
-divTasks.id += "tasks-div-element";
-document.body.appendChild(divTasks);
-let tasks = [];
-let printHelloWorld = () => console.log("hello world");
 //je pense que je vais devoir utiliser du javascript pour modifier du css
 // Mr stark, I dont feel so well ....
 /**!SECTION
@@ -340,8 +453,6 @@ let printHelloWorld = () => console.log("hello world");
  * check event auxclick
  *
  */
-
-})();
 
 /******/ })()
 ;
