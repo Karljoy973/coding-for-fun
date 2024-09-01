@@ -1,0 +1,59 @@
+
+.light-bg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    height: 5em;
+    min-width: 150px;
+    width: fit-content;
+    
+}
+.light-on{
+    background-color: #FBE106;
+
+}
+.light-off{
+    background-color: #ffffff;
+}
+
+.round-shape{
+    width: 300px; 
+    height: 300px;
+    background-color: yellowgreen;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cadrant{
+    position: inherit;
+    transform: translateX(-25%);
+
+}
+.update-hour-button{
+    position: inherit;
+    transform: translate(200%, 200%);
+    background-color: cadetblue;
+    width: 60px;
+    height: 60px;
+}
+.toggle-button{
+    position: inherit;
+    transform: translate(10%, 200%);
+    background-color: cadetblue;
+    width: 60px;
+    height: 60px;
+}
+p{
+    position: absolute;
+
+}
+
+.active{
+    display: block;
+}
+.disabled{
+    display: none;
+}
+
