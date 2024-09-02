@@ -10,9 +10,9 @@ buttonMoreClock.appendChild(m_i);
 
 document.body.appendChild(buttonMoreClock);
 
-let root = document.createElement("div");
-root.setAttribute("class", "root ui-component ");
-document.body.appendChild(root);
+let clockContainer = document.createElement("div");
+clockContainer.setAttribute("class", "clock-container ui-component ");
+document.body.appendChild(clockContainer);
 
 let buildClock = () => {
 	//cadrant circulaire
@@ -73,6 +73,16 @@ let buildClock = () => {
 	settingsButton.appendChild(s_i);
 
 	// boutton heures
+	let baseSwapHourStyleButtonClass = "ui-component button";
+	let swapHourButton = document.createElement("div");
+	swapHourButton.setAttribute("class", baseSwapHourStyleButtonClass);
+	//icon
+	let sh_i = document.createElement("p");
+	sh_i.innerText = "X";
+	sh_i.setAttribute("class", "X");
+	swapHourButton.appendChild(sh_i);
+
+	//AM PM button
 	let baseHourButtonClass = "ui-component button";
 	let hourButton = document.createElement("div");
 	hourButton.setAttribute("class", baseHourButtonClass);
@@ -92,7 +102,7 @@ let buildClock = () => {
 
 	//setting up the tree
 
-	let rootChildren = [Cadrant];
+	let clockContainerChildren = [Cadrant];
 	let cadrantChildren = [buttonContainer, lightArea]; //+icon
 	let lightChildren = [hourElement];
 	let hourElementChildren = [
@@ -105,6 +115,7 @@ let buildClock = () => {
 		settingsButton,
 		hourButton,
 		buttonreset,
+		swapHourButton,
 	];
 
 	//composition : building the tree
@@ -112,7 +123,7 @@ let buildClock = () => {
 	buttonContainerChildren.forEach((e) => buttonContainer.appendChild(e));
 	hourElementChildren.forEach((e) => hourElement.appendChild(e));
 	cadrantChildren.forEach((e: HTMLDivElement) => Cadrant.appendChild(e));
-	rootChildren.forEach((e) => root.appendChild(e));
+	clockContainerChildren.forEach((e) => clockContainer.appendChild(e));
 
 	let hourIncr = 0;
 	let minIncr = 0;
@@ -140,6 +151,8 @@ let buildClock = () => {
 		minIncr = 0;
 	});
 
+	let notFrenchHourFormat = true;
+	//add boolean to manage hour12 + manage state in event listener (am/pm)
 	setInterval(() => {
 		let now = new Date();
 		now.setHours(now.getHours() + hourIncr, now.getMinutes() + minIncr);
@@ -148,11 +161,17 @@ let buildClock = () => {
 			minute: "2-digit",
 			second: "2-digit",
 			day: undefined,
+			hour12: notFrenchHourFormat,
 		});
 		hourDigitElement.innerText = `${current[0]}${current[1]}:`;
 		minutesDigitElement.innerText = `${current[3]}${current[4]}:`;
 		secundsDigitElement.innerText = `${current[6]}${current[7]}`;
 	}, 10);
+
+	swapHourButton.addEventListener(
+		"click",
+		(e) => (notFrenchHourFormat = !notFrenchHourFormat),
+	);
 
 	settingsButton.addEventListener("click", (e) => {
 		setInterval(() => {
@@ -186,6 +205,12 @@ let buildClock = () => {
 			currentState = states[0];
 		}
 	});
+
+	Cadrant.addEventListener("click", (e) => {
+		Cadrant.setAttribute("draggable", "true");
+		//set grab state then do stuff
+	});
+
 	hourButton.addEventListener("click", (e) => {
 		if (currentState == states[1]) {
 			hourIncr++;
@@ -199,3 +224,52 @@ let buildClock = () => {
 buildClock();
 
 buttonMoreClock.addEventListener("click", (e) => buildClock());
+
+//#####################################################################
+
+class IconView {
+	icon: HTMLElement;
+	constructor(iconClass: string) {
+		this.icon = document.createElement("i");
+		this.icon.setAttribute("class", iconClass);
+	}
+}
+
+/**
+ * @class IconModel
+ * @field value:string - stores current font-icon class
+ */
+class IconModel {
+	value = "fa-regular fa-square-plus";
+}
+
+/**
+ * @class IconController
+ * @description - uses font-icons as icon database
+ * @argument model:IconModel - store the current icon class
+ * @argument value:string - sets the new class
+ */
+class IconController {
+	setIcon(model: IconModel, value: string) {
+		model.value = value;
+	}
+}
+
+class ButtonView {
+	element: HTMLDivElement;
+	buttonClass: string;
+	constructor(buttonClass?: string) {
+		this.element = document.createElement("div");
+		buttonClass
+			? (this.buttonClass = "ui-component button" + buttonClass)
+			: (this.buttonClass = "ui-component button");
+
+		this.element.setAttribute("class", this.buttonClass);
+	}
+}
+
+//un controller va regarder le model et construire la vue associée
+interface UIElementModel {
+	children?: UIElementModel[];
+}
+
