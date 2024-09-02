@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
+const { server } = require("typescript");
 const appDirectory = fs.realpathSync(process.cwd());
 
 module.exports = {
@@ -42,6 +43,7 @@ module.exports = {
 		compress: true,
 		client: { overlay: true },
 		hot: true,
+		server: "https"
 	},
 	resolve: {
 		extensions: [".ts", ".js"],

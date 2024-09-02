@@ -227,6 +227,10 @@ buttonMoreClock.addEventListener("click", (e) => buildClock());
 
 //#####################################################################
 
+/**
+ * @class IconView
+ * @description gets the font icon that corresponds to the class and diplays it as html element
+ */
 class IconView {
 	icon: HTMLElement;
 	constructor(iconClass: string) {
@@ -239,7 +243,7 @@ class IconView {
  * @class IconModel
  * @field value:string - stores current font-icon class
  */
-class IconModel {
+class IconModel implements UIElementModel {
 	value = "fa-regular fa-square-plus";
 }
 
@@ -255,21 +259,79 @@ class IconController {
 	}
 }
 
+/**
+ * @class ButtonView - Defines which css class should be applied to the button (html element)
+ * @method update: add a temmporary css class to your view
+ * @method reset: return to the initial state 
+ */
 class ButtonView {
 	element: HTMLDivElement;
 	buttonClass: string;
-	constructor(buttonClass?: string) {
+	private internalButtonClass: string;
+	constructor(model: ButtonModel) {
 		this.element = document.createElement("div");
-		buttonClass
-			? (this.buttonClass = "ui-component button" + buttonClass)
-			: (this.buttonClass = "ui-component button");
-
-		this.element.setAttribute("class", this.buttonClass);
+		this.buttonClass = model.classList;
+		this.internalButtonClass = this.buttonClass;
+		this.element.setAttribute('class' , this.buttonClass)
+	}
+	update(value: string){
+		this.buttonClass += `${value} `; 
+		this.element.setAttribute('class', this.buttonClass)
+	}
+	reset(){
+		this.buttonClass = this.internalButtonClass;
+		this.element.setAttribute('class', this.buttonClass)
 	}
 }
 
+
+/**
+ * @class ButtonModel 
+ * @field classList - all the classes 
+ */
+class ButtonModel implements UIElementModel{
+	classList: string;
+	children: Array<string>|null;
+	constructor(classList: string, children?: string[]){
+		this.children = []
+		this.classList = classList;
+	if(!!children) {this.children = [...children]}
+}
+addChild(child: string){
+	if(!this.children){
+		this.children = [child.toLowerCase()]
+	}
+	if(!this.children!.filter(e=> e.toLowerCase() == child.toLowerCase())){
+		this.children!.push(child.toLowerCase())
+	}
+}
+removeChild(child: string){
+	if(!this.children){return;}
+	this.children = this.children!.filter(e => e != child.toLowerCase())
+}
+addChildren(children:Array<string>){
+	if(!!children){
+		children.forEach(e => this.addChild(e))
+	}
+}
+removeChildren(children:Array<string>){
+	children.forEach(e => this.removeChild(e))
+}
+clear(){
+	this.children = null;
+}
+}
+
+class ClockModel implements UIElementModel{}
+
+class TimeZoneModel {}
+
 //un controller va regarder le model et construire la vue associée
 interface UIElementModel {
-	children?: UIElementModel[];
+	children?: Array<any>|null;
+	value?: any;
+	
 }
+
+
 
