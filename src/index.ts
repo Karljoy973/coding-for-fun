@@ -1,3 +1,5 @@
+import { TimeZoneModel } from "./timezone-model";
+
 //view
 //boutton reset
 let baseMoreClockButtonClass = "ui-component button more-clock-button";
@@ -153,19 +155,28 @@ let buildClock = () => {
 
 	let notFrenchHourFormat = true;
 	//add boolean to manage hour12 + manage state in event listener (am/pm)
-	setInterval(() => {
-		let now = new Date();
-		now.setHours(now.getHours() + hourIncr, now.getMinutes() + minIncr);
-		let current = now.toLocaleString(undefined, {
-			hour: "2-digit",
-			minute: "2-digit",
-			second: "2-digit",
-			day: undefined,
-			hour12: notFrenchHourFormat,
-		});
-		hourDigitElement.innerText = `${current[0]}${current[1]}:`;
-		minutesDigitElement.innerText = `${current[3]}${current[4]}:`;
-		secundsDigitElement.innerText = `${current[6]}${current[7]}`;
+	// setInterval(() => {
+	// 	let now = new Date();
+	// 	now.setHours(now.getHours() + hourIncr, now.getMinutes() + minIncr);
+	// 	let current = now.toLocaleString(undefined, {
+	// 		hour: "2-digit",
+	// 		minute: "2-digit",
+	// 		second: "2-digit",
+	// 		day: undefined,
+	// 		hour12: notFrenchHourFormat,
+	// 	});
+	// 	hourDigitElement.innerText = `${current[0]}${current[1]}:`;
+	// 	minutesDigitElement.innerText = `${current[3]}${current[4]}:`;
+	// 	secundsDigitElement.innerText = `${current[6]}${current[7]}`;
+	// }, 10);
+	let time = new TimeZoneModel();
+	time.init();
+
+
+	setTimeout(() => {
+		hourDigitElement.innerText = `${time.getCurrentTime()}`;
+		// minutesDigitElement.innerText = `${time.CurrentTime[3]}${time.CurrentTime[4]}:`;
+		// secundsDigitElement.innerText = `${time.CurrentTime[6]}${time.CurrentTime[7]}`;
 	}, 10);
 
 	swapHourButton.addEventListener(
@@ -262,7 +273,7 @@ class IconController {
 /**
  * @class ButtonView - Defines which css class should be applied to the button (html element)
  * @method update: add a temmporary css class to your view
- * @method reset: return to the initial state 
+ * @method reset: return to the initial state
  */
 class ButtonView {
 	element: HTMLDivElement;
@@ -272,66 +283,67 @@ class ButtonView {
 		this.element = document.createElement("div");
 		this.buttonClass = model.classList;
 		this.internalButtonClass = this.buttonClass;
-		this.element.setAttribute('class' , this.buttonClass)
+		this.element.setAttribute("class", this.buttonClass);
 	}
-	update(value: string){
-		this.buttonClass += `${value} `; 
-		this.element.setAttribute('class', this.buttonClass)
+	update(value: string) {
+		this.buttonClass += `${value} `;
+		this.element.setAttribute("class", this.buttonClass);
 	}
-	reset(){
+	reset() {
 		this.buttonClass = this.internalButtonClass;
-		this.element.setAttribute('class', this.buttonClass)
+		this.element.setAttribute("class", this.buttonClass);
 	}
 }
-
 
 /**
- * @class ButtonModel 
- * @field classList - all the classes 
+ * @class ButtonModel
+ * @field classList - all the classes
  */
-class ButtonModel implements UIElementModel{
+class ButtonModel implements UIElementModel {
 	classList: string;
-	children: Array<string>|null;
-	constructor(classList: string, children?: string[]){
-		this.children = []
+	children: Array<string> | null;
+	constructor(classList: string, children?: string[]) {
+		this.children = [];
 		this.classList = classList;
-	if(!!children) {this.children = [...children]}
-}
-addChild(child: string){
-	if(!this.children){
-		this.children = [child.toLowerCase()]
+		if (!!children) {
+			this.children = [...children];
+		}
 	}
-	if(!this.children!.filter(e=> e.toLowerCase() == child.toLowerCase())){
-		this.children!.push(child.toLowerCase())
+	addChild(child: string) {
+		if (!this.children) {
+			this.children = [child.toLowerCase()];
+		}
+		if (
+			!this.children!.filter(
+				(e) => e.toLowerCase() == child.toLowerCase(),
+			)
+		) {
+			this.children!.push(child.toLowerCase());
+		}
 	}
-}
-removeChild(child: string){
-	if(!this.children){return;}
-	this.children = this.children!.filter(e => e != child.toLowerCase())
-}
-addChildren(children:Array<string>){
-	if(!!children){
-		children.forEach(e => this.addChild(e))
+	removeChild(child: string) {
+		if (!this.children) {
+			return;
+		}
+		this.children = this.children!.filter((e) => e != child.toLowerCase());
 	}
-}
-removeChildren(children:Array<string>){
-	children.forEach(e => this.removeChild(e))
-}
-clear(){
-	this.children = null;
-}
+	addChildren(children: Array<string>) {
+		if (!!children) {
+			children.forEach((e) => this.addChild(e));
+		}
+	}
+	removeChildren(children: Array<string>) {
+		children.forEach((e) => this.removeChild(e));
+	}
+	clear() {
+		this.children = null;
+	}
 }
 
-class ClockModel implements UIElementModel{}
-
-class TimeZoneModel {}
+class ClockModel implements UIElementModel {}
 
 //un controller va regarder le model et construire la vue associée
 interface UIElementModel {
-	children?: Array<any>|null;
+	children?: Array<any> | null;
 	value?: any;
-	
 }
-
-
-
