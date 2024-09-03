@@ -154,29 +154,20 @@ let buildClock = () => {
 	});
 
 	let notFrenchHourFormat = true;
-	//add boolean to manage hour12 + manage state in event listener (am/pm)
-	// setInterval(() => {
-	// 	let now = new Date();
-	// 	now.setHours(now.getHours() + hourIncr, now.getMinutes() + minIncr);
-	// 	let current = now.toLocaleString(undefined, {
-	// 		hour: "2-digit",
-	// 		minute: "2-digit",
-	// 		second: "2-digit",
-	// 		day: undefined,
-	// 		hour12: notFrenchHourFormat,
-	// 	});
-	// 	hourDigitElement.innerText = `${current[0]}${current[1]}:`;
-	// 	minutesDigitElement.innerText = `${current[3]}${current[4]}:`;
-	// 	secundsDigitElement.innerText = `${current[6]}${current[7]}`;
-	// }, 10);
-	let time = new TimeZoneModel();
-	time.init();
-
-
-	setTimeout(() => {
-		hourDigitElement.innerText = `${time.getCurrentTime()}`;
-		// minutesDigitElement.innerText = `${time.CurrentTime[3]}${time.CurrentTime[4]}:`;
-		// secundsDigitElement.innerText = `${time.CurrentTime[6]}${time.CurrentTime[7]}`;
+	// add boolean to manage hour12 + manage state in event listener (am/pm)
+	setInterval(() => {
+		let now = new Date();
+		now.setHours(now.getHours() + hourIncr, now.getMinutes() + minIncr);
+		let current = now.toLocaleString(undefined, {
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+			day: undefined,
+			hour12: notFrenchHourFormat,
+		});
+		hourDigitElement.innerText = `${current[0]}${current[1]}:`;
+		minutesDigitElement.innerText = `${current[3]}${current[4]}:`;
+		secundsDigitElement.innerText = `${current[6]}${current[7]}`;
 	}, 10);
 
 	swapHourButton.addEventListener(
@@ -279,7 +270,7 @@ class ButtonView {
 	element: HTMLDivElement;
 	buttonClass: string;
 	private internalButtonClass: string;
-	constructor(model: ButtonModel) {
+	constructor(model: ElementModel) {
 		this.element = document.createElement("div");
 		this.buttonClass = model.classList;
 		this.internalButtonClass = this.buttonClass;
@@ -296,10 +287,10 @@ class ButtonView {
 }
 
 /**
- * @class ButtonModel
+ * @class ElementModel
  * @field classList - all the classes
  */
-class ButtonModel implements UIElementModel {
+class ElementModel implements UIElementModel {
 	classList: string;
 	children: Array<string> | null;
 	constructor(classList: string, children?: string[]) {
@@ -340,7 +331,8 @@ class ButtonModel implements UIElementModel {
 	}
 }
 
-class ClockModel implements UIElementModel {}
+
+
 
 //un controller va regarder le model et construire la vue associée
 interface UIElementModel {
