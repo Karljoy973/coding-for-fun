@@ -1,7 +1,6 @@
-import { UIElementModel } from "./ArchtecturedVersion/View/interfaces";
 import { buildController } from "./MiddleGround/build-controller";
-import { buildModel, buildView } from "./MiddleGround/build-view";
-// import { Build } from "./unArchitecturedVersion/build-everthing";
+import { buildModel } from "./MiddleGround/build-model";
+import { buildView } from "./MiddleGround/build-view";
 
 // Build.everything();
 
@@ -20,24 +19,23 @@ clockContainer.setAttribute("class", "clock-container ui-component ");
 document.body.appendChild(clockContainer);
 
 buttonMoreClock.addEventListener("click", (e) => {
-	let v = buildView();
-	let m = buildModel({
-		"base-cadrant-class": [v.views.buttonContainer, v.views.lightArea],
-		"base-light-area-class": [v.views.hourElement],
-		"base-hour-element-class": [
-			v.views.hourDigitElement,
-			v.views.minutesDigitElement,
-			v.views.secundsDigitElement,
-		],
+  let v = buildView();
+  let m = buildModel({
+    "base-cadrant-class": [v.views.buttonContainer, v.views.lightArea],
+    "base-light-area-class": [v.views.hourElement],
+    "base-hour-element-class": [
+      v.views.hourDigitElement,
+      v.views.minutesDigitElement,
+      v.views.secundsDigitElement,
+    ],
 
-		"base-button-container-class": [
-			v.views.ligthButton,
-			v.views.settingsButton,
-			v.views.hourButton,
-			v.views.buttonreset,
-			v.views.swapHourButton,
-		],
-	});
-	buildController(v.views, v.classes);
-	console.log(m);
+    "base-button-container-class": [
+      v.views.ligthButton,
+      v.views.settingsButton,
+      v.views.hourButton,
+      v.views.buttonreset,
+      v.views.swapHourButton,
+    ],
+  });
+  buildController(v.views, v.classes);
 });
