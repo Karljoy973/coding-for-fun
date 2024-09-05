@@ -1,5 +1,6 @@
 import { buildController } from "./MiddleGround/build-controller";
 import { buildModel } from "./MiddleGround/build-model";
+import { buildRoundedView } from "./MiddleGround/build-rounded-view";
 import { buildView } from "./MiddleGround/build-view";
 
 // Build.everything();
@@ -14,28 +15,42 @@ buttonMoreClock.appendChild(m_i);
 
 document.body.appendChild(buttonMoreClock);
 
+let baseMoreRoundedClockButtonClass =
+	"ui-component button more-clock-button more-rounded-clock-button";
+let buttonMoreRoundedClock = document.createElement("div");
+buttonMoreClock.setAttribute("class", baseMoreRoundedClockButtonClass);
+//icon
+let m_r_i = document.createElement("i");
+m_r_i.setAttribute("class", "fa-solid fa-circle-plus");
+buttonMoreRoundedClock.appendChild(m_r_i);
+
+document.body.appendChild(buttonMoreClock);
+document.body.appendChild(buttonMoreRoundedClock);
+
 let clockContainer = document.createElement("div");
 clockContainer.setAttribute("class", "clock-container ui-component ");
 document.body.appendChild(clockContainer);
+buildRoundedView();
 
 buttonMoreClock.addEventListener("click", (e) => {
-  let v = buildView();
-  let m = buildModel({
-    "base-cadrant-class": [v.views.buttonContainer, v.views.lightArea],
-    "base-light-area-class": [v.views.hourElement],
-    "base-hour-element-class": [
-      v.views.hourDigitElement,
-      v.views.minutesDigitElement,
-      v.views.secundsDigitElement,
-    ],
+	let v = buildView();
+	let m = buildModel({
+		"base-cadrant-class": [v.views.buttonContainer, v.views.lightArea],
+		"base-light-area-class": [v.views.hourElement],
+		"base-hour-element-class": [
+			v.views.hourDigitElement,
+			v.views.minutesDigitElement,
+			v.views.secundsDigitElement,
+		],
 
-    "base-button-container-class": [
-      v.views.ligthButton,
-      v.views.settingsButton,
-      v.views.hourButton,
-      v.views.buttonreset,
-      v.views.swapHourButton,
-    ],
-  });
-  buildController(v.views, v.classes);
+		"base-button-container-class": [
+			v.views.ligthButton,
+			v.views.settingsButton,
+			v.views.hourButton,
+			v.views.buttonreset,
+			v.views.swapHourButton,
+			v.views.deleteButton,
+		],
+	});
+	buildController(v.views, v.classes);
 });

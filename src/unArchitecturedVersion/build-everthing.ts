@@ -252,7 +252,7 @@ export namespace Build {
 				}
 			});
 
-			Cadrant.addEventListener("click", (e) => {
+			Cadrant.addEventListener("mousedown", (e) => {
 				Cadrant.setAttribute("draggable", "true");
 				//set grab state then do stuff
 			});

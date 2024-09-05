@@ -108,10 +108,10 @@ opacity: 0;
         opacity: 0;
     }
 }
-
+/* 
 [draggable=true]{
     cursor: grab;
-}
+} */
 
 ::-webkit-scrollbar{
     overflow-y: scroll;
@@ -136,4 +136,19 @@ opacity: 0;
 ::-webkit-scrollbar-track{
     border-radius: 50px;
     background: #5009a0;
+}
+
+[draggable=true]{
+    cursor: move;
+}
+
+.rounded-clock {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    min-width: 200px;
+    min-height: 200px;
+    border-radius: 100%;
+    background-color: aliceblue;
+    border:5px solid #640bca
 }

@@ -12,6 +12,7 @@
 		"webpack-dev-server": "^5.0.4"
 	},
 	"dependencies": {
+		"jquery": "^3.7.1",
 		"ts-node": "^10.9.2"
 	}
 }
