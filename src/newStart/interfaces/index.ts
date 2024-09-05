@@ -14,6 +14,6 @@ export type ControllerTarget = {
   view: View;
 };
 
-export type NodeType = "button" | "TimeArea" | "Container";
+export type NodeType = "Button" | "TimeArea" | "Container" | "LocalTime";
 
 export interface Controller extends Partial<ControllerTarget> {}

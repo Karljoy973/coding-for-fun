@@ -5,7 +5,7 @@ export class ContainerView extends GenericView {
   eSpecs: { baseClasses: string; additionalClasses?: string };
   constructor(override readonly model: Model) {
     super(model);
-    this.e = document.createElement("div");
+    this.self = document.createElement("div");
   }
   reset = () => {
     this.eSpecs.additionalClasses = "";
@@ -22,7 +22,7 @@ export class ContainerView extends GenericView {
   };
 
   update = () => {
-    this.e.setAttribute(
+    this.self.setAttribute(
       "class",
       `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`
     );

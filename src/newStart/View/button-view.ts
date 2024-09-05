@@ -41,9 +41,9 @@ export class ButtonView extends GenericView {
     super(model);
 
     if (!!element) {
-      this.e = element;
+      this.self = element;
     } else {
-      this.e = document.createElement("div");
+      this.self = document.createElement("div");
     }
 
     if (!!icon) {
@@ -54,10 +54,10 @@ export class ButtonView extends GenericView {
     if (!!elementSpecs) Object.assign(this.eSpecs, elementSpecs);
     if (!!iconSpecs) Object.assign(this.iSpecs, iconSpecs);
 
-    this.e.setAttribute("id", `${this.model.IDELEMENT} - ${Id.Build()}`);
-    this.i.setAttribute("id", `${this.model.IDELEMENT} - ${Id.Build()}`);
+    this.self.setAttribute("id", `${Id.Build()}`);
+    this.i.setAttribute("id", `${Id.Build()}`);
 
-    this.e.appendChild(this.i);
+    this.self.appendChild(this.i);
   }
   reset = () => {
     this.eSpecs.additionalClasses = "";
@@ -83,7 +83,7 @@ export class ButtonView extends GenericView {
   };
 
   update = () => {
-    this.e.setAttribute(
+    this.self.setAttribute(
       "class",
       `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`
     );

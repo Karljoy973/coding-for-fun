@@ -14,9 +14,9 @@ export class Id {
   }
 
   // Méthode statique pour construire/générer un nouvel ID
-  public static Build(): number {
+  public static Build(): string {
     const instance = Id.getInstance();
     instance.identifier += 1;
-    return instance.identifier;
+    return `node-${instance.identifier}`;
   }
 }

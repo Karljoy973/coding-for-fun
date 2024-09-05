@@ -143,6 +143,10 @@ opacity: 0;
 }
 
 .rounded-clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
     position: absolute;
     width: 200px;
     height: 200px;
@@ -151,4 +155,18 @@ opacity: 0;
     border-radius: 100%;
     background-color: aliceblue;
     border:5px solid #640bca
+}
+
+.needle{
+    overflow: hidden;
+    position: absolute;
+    width:10px;
+    height: 90%;
+    background-color:transparent;
+    display: flex;
+}
+.visible-needle{
+    background-color: #640bca;
+    width: inherit;
+    height: 50%;
 }
