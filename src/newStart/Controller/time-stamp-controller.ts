@@ -11,46 +11,53 @@ import { Controller, Model, View } from "../interfaces/index";
  * @method reset
  */
 export class TimeStampController implements Controller {
-	public _cH: string;
-	private _hI: number;
-	private _mI: number;
-	timeFormat: boolean;
+  private _currentState: string;
+  private _currentHour: string;
+  private _currentMinute: string;
+  private _currentSecond: string;
 
-	constructor() {}
-	model?: Model;
+  private _hourOffset: number;
+  private _minuteOffset: number;
+  timeFormat: boolean;
 
-	eventHandler = (e: MouseEvent) => {};
-	/**
-	 * @method init
-	 * @description initializes the time and update it
-	 */
-	init = () => {
-		setTimeout(this.updateCurrentTime, 10);
-	};
-	get currentHour() {
-		return this._cH;
-	}
-	incrementHours() {
-		this._hI++;
-	}
-	incrementMinutes() {
-		this._mI++;
-	}
-	reset() {
-		this._hI = 0;
-		this._mI = 0;
-	}
-	protected updateCurrentTime = () => {
-		let now = new Date();
-		now.setHours(now.getHours() + this._hI, now.getMinutes() + this._mI);
-		let current = now.toLocaleString(undefined, {
-			hour: "2-digit",
-			minute: "2-digit",
-			second: "2-digit",
-			day: undefined,
-			hour12: this.timeFormat,
-		});
-		this._cH = current;
-		setTimeout(this.updateCurrentTime, 10);
-	};
+  constructor() {}
+  model?: Model;
+
+  eventHandler = (e: MouseEvent) => {};
+  /**
+   * @method init
+   * @description initializes the time and update it
+   */
+  init = () => {
+    setTimeout(this.updateCurrentTime, 10);
+  };
+  get currentHour() {
+    return this._currentHour;
+  }
+  incrementHours() {
+    this._hourOffset++;
+  }
+  incrementMinutes() {
+    this._minuteOffset++;
+  }
+  reset() {
+    this._hourOffset = 0;
+    this._minuteOffset = 0;
+  }
+  protected updateCurrentTime = () => {
+    let now = new Date();
+    now.setHours(
+      now.getHours() + this._hourOffset,
+      now.getMinutes() + this._minuteOffset
+    );
+    let current = now.toLocaleString(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      day: undefined,
+      hour12: this.timeFormat,
+    });
+    this._currentHour = current;
+    setTimeout(this.updateCurrentTime, 10);
+  };
 }

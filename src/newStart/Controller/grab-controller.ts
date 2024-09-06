@@ -12,13 +12,17 @@ export class GrabController implements Controller {
     this._view = view;
   }
   init = () => {
-    this._view.self.addEventListener("mousedown", this.mouseDownHandler);
+    if (!!this._view.self) {
+      this._view.self.addEventListener("mousedown", this.mouseDownHandler);
+    }
   };
 
   mouseDownHandler = (e: MouseEvent) => {
-    let id = `#${this._view.self.id}`;
-    $(function () {
-      ($(id) as any).draggable();
-    });
+    if (!!this._view.self) {
+      let id = `#${this._view.self.id}`;
+      $(function () {
+        ($(id) as any).draggable();
+      });
+    }
   };
 }

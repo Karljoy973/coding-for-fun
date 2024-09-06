@@ -1,6 +1,6 @@
 //implements strategy design pattern
 
-import { Model, , View } from "../interfaces";
+import { Model, View, ViewSpecs } from "../interfaces";
 
 /**
  * @interface StrategyTimeAreaView
@@ -8,7 +8,7 @@ import { Model, , View } from "../interfaces";
  * or something else.
  */
 export interface StrategyTimeAreaView extends View {
-	execute(specs: any): any;
+  execute(specs: any): any;
 }
 
 /**
@@ -17,13 +17,17 @@ export interface StrategyTimeAreaView extends View {
  *
  * >@argument specs - necessary sppecs to create the view
  */
-export class StrategyDigitalTimeView implements StrategyTimeAreaView {
-	model: Model;
-	self: HTMLElement;
-	create?: Function;
-	execute(specs: any) {
-		throw new Error("Method not implemented.");
-	}
+export class defaultStrategyDigitalTimeView implements StrategyTimeAreaView {
+  model: Model;
+
+  constructor(model: Model) {
+    this.model = model;
+    this.create();
+  }
+  create: Function = () => {};
+  execute(specs: any) {
+    throw new Error("Method not implemented.");
+  }
 }
 
 /**
@@ -32,11 +36,16 @@ export class StrategyDigitalTimeView implements StrategyTimeAreaView {
  *
  * >@argument specs - necessary sppecs to create the view
  */
-export class StrategyNeedleTimeView implements StrategyTimeAreaView {
-	model: Model;
-	self: HTMLElement;
-	create?: Function;
-	execute(specs: any) {
-		throw new Error("Method not implemented.");
-	}
+export class defaultStrategyNeedleTimeView implements StrategyTimeAreaView {
+  elementSpecs?: {
+    baseClasses: string;
+    additionalClasses?: string;
+  };
+  constructor(model: Model) {}
+  model: Model;
+  self: HTMLElement;
+  create: Function = () => {};
+  execute(specs: any) {
+    throw new Error("Method not implemented.");
+  }
 }
