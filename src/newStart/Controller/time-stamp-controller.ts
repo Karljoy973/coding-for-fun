@@ -1,4 +1,5 @@
-import { Controller, Model, View } from "../interfaces/index";
+import { extend } from 'jquery';
+import { Controller, Model, View } from '../interfaces/index';
 
 /**
  * @class StrategyTimeStampController
@@ -10,14 +11,14 @@ import { Controller, Model, View } from "../interfaces/index";
  * @method incrementMinutes
  * @method reset
  */
-export class TimeStampController implements Controller {
-  private _currentState: string;
-  private _currentHour: string;
-  private _currentMinute: string;
-  private _currentSecond: string;
+export class TimestampController implements Controller {
+  protected _currentState: string;
+  protected _currentHour: string;
+  protected _currentMinute: string;
+  protected _currentSecond: string;
 
-  private _hourOffset: number;
-  private _minuteOffset: number;
+  protected _hourOffset: number;
+  protected _minuteOffset: number;
   timeFormat: boolean;
 
   constructor() {}
@@ -51,13 +52,70 @@ export class TimeStampController implements Controller {
       now.getMinutes() + this._minuteOffset
     );
     let current = now.toLocaleString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
       day: undefined,
       hour12: this.timeFormat,
     });
     this._currentHour = current;
+    setTimeout(this.updateCurrentTime, 10);
+  };
+}
+
+export class MecanicalTimestampController extends TimestampController {
+  constructor() {
+    super();
+  }
+  override init = () => {
+    this.formatHours();
+    this.formatMinutes();
+    this.formatSeconds();
+  };
+  private formatHours = () => {
+    let now = new Date();
+    now.setHours(
+      now.getHours() + this._hourOffset,
+      now.getMinutes() + this._minuteOffset
+    );
+    let current = now.toLocaleString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      day: undefined,
+      hour12: this.timeFormat,
+    });
+    this._currentHour = `${-(+current / 24) * 1.74533 * 3.65}`;
+    setTimeout(this.updateCurrentTime, 10);
+  };
+  private formatMinutes = () => {
+    let now = new Date();
+    now.setHours(
+      now.getHours() + this._hourOffset,
+      now.getMinutes() + this._minuteOffset
+    );
+    let current = now.toLocaleString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      day: undefined,
+      hour12: this.timeFormat,
+    });
+    this._currentMinute = `${-(+current / 60) * 1.74533 * 3.65}`;
+    setTimeout(this.updateCurrentTime, 10);
+  };
+  private formatSeconds = () => {
+    let now = new Date();
+    now.setHours(
+      now.getHours() + this._hourOffset,
+      now.getMinutes() + this._minuteOffset
+    );
+    let current = now.toLocaleString(undefined, {
+      second: '2-digit',
+      day: undefined,
+      hour12: this.timeFormat,
+    });
+    this._currentSecond = `${-(+current / 60) * 1.74533 * 3.65}`;
     setTimeout(this.updateCurrentTime, 10);
   };
 }
