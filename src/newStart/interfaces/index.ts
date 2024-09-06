@@ -9,9 +9,10 @@ export interface Model {
 }
 
 export type IDElement = string;
-export type ControllerTarget = {
-  model: Model;
-  view: View;
+export interface ControllerTarget {
+	model: Model;
+	view: View;
+	init(): void;
 };
 
 export type NodeType = "Button" | "TimeArea" | "Container" | "LocalTime";

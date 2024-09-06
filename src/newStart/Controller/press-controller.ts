@@ -1,16 +1,14 @@
 import { Controller, View } from "../interfaces/index";
 
+/**
+ * @class PressController 
+ * @description will handle the logic 
+ */
 export class PressController implements Controller {
-  _view: View;
-  get view() {
-    return this._view;
-  }
-  constructor(view: View) {
-    this._view = view;
-  }
-  init = () => {
-    this._view.self.addEventListener("click", this.eventHandler);
-  };
+	constructor() {}
+	init = () => {
+		// this._view.self.addEventListener("click", this.eventHandler);
+	};
 
-  eventHandler = (e: MouseEvent) => {};
+	eventHandler = (e: MouseEvent) => {};
 }

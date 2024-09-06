@@ -66,11 +66,10 @@ justify-content: space-between;
     color:aliceblue;
 }
 
+
 .light-area {
     width: 10em;
     height: clamp(fit-content, 60%);
-    /* position: absolute; */
-    /* transform: translateX(300%); */
     border: 2px solid black;
     border-radius: 20px;
 }
