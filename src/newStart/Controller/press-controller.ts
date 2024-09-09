@@ -1,11 +1,11 @@
-import { Controller, View } from "../interfaces/index";
+import { Controller, View } from "../interfaces/types";
 
 /**
- * @class PressController 
- * @description will handle the logic 
+ * @class PressController
+ * @description will handle the logic
  */
 export class PressController implements Controller {
-	constructor() {}
+	constructor(view: View, controller: Controller) {}
 	init = () => {
 		// this._view.self.addEventListener("click", this.eventHandler);
 	};

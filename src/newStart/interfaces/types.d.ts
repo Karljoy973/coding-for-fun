@@ -36,3 +36,5 @@ export type ViewSpecs = {
     additionalClasses?: string;
   };
 };
+
+export type TimeResponsibility = "hours" | "minutes" | "seconds";

@@ -1,4 +1,4 @@
-import { View, Model } from "../interfaces/index";
+import { View, Model } from "../interfaces/types";
 
 /**
  * @class GenericView
@@ -8,13 +8,13 @@ import { View, Model } from "../interfaces/index";
  * @method create: Initialize the view
  */
 export class GenericView implements View {
-  constructor(readonly model: Model) {}
-  self: HTMLElement;
-  /**
-   * @method create - chaque méthode a sa propre méthode de création.
-   */
-  create?: Function;
-  appendChild: Function = (v: View) => {
-    if (!!v.self) this.self.appendChild(v.self);
-  };
+	constructor(readonly model: Model) {}
+	self: HTMLElement;
+	/**
+	 * @method create - chaque méthode a sa propre méthode de création.
+	 */
+	create?: Function;
+	appendChild: Function = (v: View) => {
+		if (!!v.self) this.self.appendChild(v.self);
+	};
 }

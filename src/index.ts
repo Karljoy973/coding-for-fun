@@ -2,9 +2,14 @@ import { buildController } from "./MiddleGround/build-controller";
 import { buildModel } from "./MiddleGround/build-model";
 import { buildRoundedView } from "./MiddleGround/build-rounded-view";
 import { buildView } from "./MiddleGround/build-view";
+import { ElectronicClockDecorator } from "./newStart/Decorateurs/electronic-clock-decorator";
 import { MecanicalClockDecorator } from "./newStart/Decorateurs/mecanical-clock-decorator";
 import { ClockNodeModel } from "./newStart/Model/clock-node-model";
 import { Id } from "./newStart/Utils/index";
+import {
+	defaultStrategyDigitalTimeView,
+	DigitalView,
+} from "./newStart/View/StrategicView/time-view";
 
 let baseMoreClockButtonClass = "ui-component button more-clock-button"; // add a drop down to select your timezone
 let buttonMoreClock = document.createElement("div");
@@ -17,7 +22,7 @@ buttonMoreClock.appendChild(m_i);
 document.body.appendChild(buttonMoreClock);
 
 let baseMoreRoundedClockButtonClass =
-  "ui-component button more-clock-button more-rounded-clock-button";
+	"ui-component button more-clock-button more-rounded-clock-button";
 let buttonMoreRoundedClock = document.createElement("div");
 buttonMoreClock.setAttribute("class", baseMoreRoundedClockButtonClass);
 //icon
@@ -33,5 +38,27 @@ clockContainer.setAttribute("class", "clock-container ui-component ");
 clockContainer.setAttribute("id", Id.Build());
 document.body.appendChild(clockContainer);
 
-buttonMoreClock.addEventListener("click", (e) => new MecanicalClockDecorator());
+buttonMoreClock.addEventListener(
+	"click",
+	(e) => new ElectronicClockDecorator(),
+);
 buttonMoreRoundedClock.addEventListener("click", (e) => buildRoundedView());
+
+//formattage à la main
+let s: string[] = [];
+for (let i = -12; i < 12; i++) {
+	if (i < 0) {
+		s.push(`GMT${i}`);
+	} else {
+		s.push(`GMT+${i}`);
+	}
+}
+
+const node1 = new ClockNodeModel("hello", "Container", [], "world", undefined);
+let dtv = new defaultStrategyDigitalTimeView(node1, [
+	new DigitalView("hours"),
+	new DigitalView("minutes"),
+	new DigitalView("seconds"),
+]);
+
+clockContainer.appendChild(dtv.self);
