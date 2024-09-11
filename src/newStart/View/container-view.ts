@@ -45,7 +45,6 @@ export class ContainerView extends GenericView {
 			Object.assign(this.eSpecs, containerSpecs.elementSpecs);
 		}
 		this.update();
-		// if(!!baseCl)
 	}
 	/**
 	 * @method reset
@@ -105,5 +104,9 @@ export class ContainerView extends GenericView {
 	removeAdditionalContainerClass = (s: string) => {
 		this.eSpecs.additionalClasses?.replace(s, "");
 		this.update();
+	};
+
+	override appendChild: Function = (v: View) => {
+		this.self.appendChild(v.self as HTMLElement);
 	};
 }

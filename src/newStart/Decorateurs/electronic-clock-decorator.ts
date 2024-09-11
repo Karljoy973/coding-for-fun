@@ -5,17 +5,18 @@ import { ClockNodeModel } from "../Model/clock-node-model";
 import { Id } from "../Utils";
 import { ButtonView } from "../View/button-view";
 import { ContainerView } from "../View/container-view";
-import {
-	defaultStrategyDigitalTimeView,
-	DigitalView,
-} from "../View/StrategicView/time-view";
+import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-strategy-digital-time-view";
+import { DigitalView } from "../View/StrategicView/digital-view";
 
 export class ElectronicClockDecorator {
 	model: ClockNodeModel;
 	views: View[];
 	controllers: Controller[];
 	private s: string;
-	constructor() {
+	private rootNode: HTMLElement;
+	constructor(rootNodeId: string) {
+		this.rootNode = document.getElementById(rootNodeId) as HTMLElement;
+		if (!this.rootNode) throw new Error("Invalid root node ID");
 		this.Build();
 	}
 
@@ -127,7 +128,7 @@ export class ElectronicClockDecorator {
 		const buttonViewNode3 = new ButtonView(
 			node3,
 			{
-				element: document.createElement("div"), // Modèle du bouton
+				element: document.createElement("div"), // Modèle du bouton // set up le turn on / turn off de lumière
 				icon: document.createElement("i"), // Élément icône
 				elementSpecs: {
 					baseClasses: "ui-component button base-light-button-class ",
@@ -227,8 +228,6 @@ export class ElectronicClockDecorator {
 			},
 		});
 
-		console.log(node1View.self.id);
-
 		this.controllers.push(
 			new DeleteController(node1View, buttonViewNode5),
 			new GrabController(node1View),
@@ -240,7 +239,83 @@ export class ElectronicClockDecorator {
 			new DigitalView("seconds"),
 		]);
 
+		const node10 = new ClockNodeModel(
+			Id.Build(),
+			"Container",
+			[],
+			node1.IDELEMENT,
+			node1,
+		);
+
+		const node11 = new ClockNodeModel(
+			Id.Build(),
+			"Button",
+			[],
+			node1.IDELEMENT,
+			node10,
+		);
+		const node12 = new ClockNodeModel(
+			Id.Build(),
+			"Button",
+			[],
+			node1.IDELEMENT,
+			node10,
+		);
+		const node13 = new ClockNodeModel(
+			Id.Build(),
+			"Button",
+			[],
+			node1.IDELEMENT,
+			node10,
+		);
+
+		const node10View = new ContainerView(node10, {
+			elementSpecs: {
+				baseClasses: "ui-component container",
+				additionalClasses: "",
+			},
+		});
+		const buttonViewNode11 = new ButtonView(node8, {
+			element: document.createElement("div"),
+			icon: document.createElement("i"),
+			elementSpecs: {
+				baseClasses: "ui-component button ",
+				additionalClasses: "",
+			},
+			iconSpecs: {
+				baseClasses: "fa-solid fa-arrow-rotate-left ",
+				additionalClasses: "fa-lg",
+			},
+		});
+		const buttonViewNode12 = new ButtonView(node8, {
+			element: document.createElement("div"),
+			icon: document.createElement("i"),
+			elementSpecs: {
+				baseClasses: "ui-component button ",
+				additionalClasses: "",
+			},
+			iconSpecs: {
+				baseClasses: "fa-solid fa-arrow-rotate-left ",
+				additionalClasses: "fa-lg",
+			},
+		});
+		const buttonViewNode13 = new ButtonView(node8, {
+			element: document.createElement("div"),
+			icon: document.createElement("i"),
+			elementSpecs: {
+				baseClasses: "ui-component button ",
+				additionalClasses: "",
+			},
+			iconSpecs: {
+				baseClasses: "fa-solid fa-arrow-rotate-left ",
+				additionalClasses: "fa-lg",
+			},
+		});
+
 		node1View.appendChild(node2View);
+		node1View.appendChild(node9view);
+		node1View.appendChild(node10View);
+
 		node2View.appendChild(buttonViewNode3);
 		node2View.appendChild(buttonViewNode4);
 		node2View.appendChild(buttonViewNode5);
@@ -248,10 +323,15 @@ export class ElectronicClockDecorator {
 		node2View.appendChild(buttonViewNode7);
 		node2View.appendChild(buttonViewNode8);
 
+		node10View.appendChild(buttonViewNode11);
+		node10View.appendChild(buttonViewNode12);
+		node10View.appendChild(buttonViewNode13);
+
 		// const timeAreaView = new defaultStrategyDigitalTimeView();
 
 		node1.appendChild(node2);
 		node1.appendChild(node9);
+		node1.appendChild(node10);
 
 		// Assigner les enfants à node-2
 		node2.appendChild(node3);
@@ -260,6 +340,10 @@ export class ElectronicClockDecorator {
 		node2.appendChild(node6);
 		node2.appendChild(node7);
 		node2.appendChild(node8);
+
+		node10.appendChild(node11);
+		node10.appendChild(node12);
+		node10.appendChild(node13);
 
 		Object.assign(this.model, node1);
 
@@ -273,10 +357,7 @@ export class ElectronicClockDecorator {
 			//   clockContainerView
 			// timeAreaView,
 		);
-		let parent = document.getElementsByClassName(
-			"clock-container",
-		)[0] as HTMLElement;
-		parent.appendChild(node1View.self);
+		this.rootNode.appendChild(node1View.self);
 
 		this.views.forEach((e) => e.self?.setAttribute("id", Id.Build()));
 	};

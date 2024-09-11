@@ -1,19 +1,18 @@
-import { DeleteController } from "../Controller/delete-controller";
-import { GrabController } from "../Controller/grab-controller";
-import { ResizeController } from "../Controller/resize-controller";
 import { Controller, Model, View } from "../interfaces/types";
 import { ClockNodeModel } from "../Model/clock-node-model";
 import { Id } from "../Utils";
-import { ButtonView } from "../View/button-view";
 import { ContainerView } from "../View/container-view";
-import { defaultStrategyDigitalTimeView } from "../View/StrategicView/time-view";
+import { StrategicMecanicalTimeView } from "../View/StrategicView/strategic-mecanical-time-view";
 
 export class MecanicalClockDecorator {
 	model: ClockNodeModel;
 	views: View[];
 	controllers: Controller[];
 	private s: string;
-	constructor() {
+	protected rootNode: HTMLElement;
+	constructor(rootContainerId: string) {
+		this.rootNode = document.getElementById(rootContainerId) as HTMLElement;
+		if (!this.rootNode) throw new Error("Invalid rootNode Id");
 		this.Build();
 	}
 
@@ -45,6 +44,29 @@ export class MecanicalClockDecorator {
 
 	private Build = () => {
 		this.controllers = [];
-		this.model = {} as ClockNodeModel;
+		let rootID = Id.Build();
+		this.model = new ClockNodeModel(
+			rootID,
+			"Container",
+			undefined,
+			rootID,
+			undefined,
+		);
+
+		const thisModelView = new ContainerView(this.model, {
+			elementSpecs: {
+				baseClasses: "rounded-clock",
+				additionalClasses: "",
+			},
+		});
+
+		let needles = new StrategicMecanicalTimeView(this.model, {
+			numberOfHourNeedles: 1,
+			numberOfMinuteNeedles: 1,
+			numberOfSecondNeedles: 1,
+		});
+
+		this.rootNode.appendChild(thisModelView.self);
+		thisModelView.self.appendChild(needles.self);
 	};
 }

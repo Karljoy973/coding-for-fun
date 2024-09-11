@@ -6,10 +6,6 @@ import { ElectronicClockDecorator } from "./newStart/Decorateurs/electronic-cloc
 import { MecanicalClockDecorator } from "./newStart/Decorateurs/mecanical-clock-decorator";
 import { ClockNodeModel } from "./newStart/Model/clock-node-model";
 import { Id } from "./newStart/Utils/index";
-import {
-	defaultStrategyDigitalTimeView,
-	DigitalView,
-} from "./newStart/View/StrategicView/time-view";
 
 let baseMoreClockButtonClass = "ui-component button more-clock-button"; // add a drop down to select your timezone
 let buttonMoreClock = document.createElement("div");
@@ -19,12 +15,10 @@ let m_i = document.createElement("i");
 m_i.setAttribute("class", "fa-regular fa-square-plus");
 buttonMoreClock.appendChild(m_i);
 
-document.body.appendChild(buttonMoreClock);
-
 let baseMoreRoundedClockButtonClass =
 	"ui-component button more-clock-button more-rounded-clock-button";
 let buttonMoreRoundedClock = document.createElement("div");
-buttonMoreClock.setAttribute("class", baseMoreRoundedClockButtonClass);
+buttonMoreRoundedClock.setAttribute("class", baseMoreRoundedClockButtonClass);
 //icon
 let m_r_i = document.createElement("i");
 m_r_i.setAttribute("class", "fa-solid fa-circle-plus");
@@ -40,9 +34,12 @@ document.body.appendChild(clockContainer);
 
 buttonMoreClock.addEventListener(
 	"click",
-	(e) => new ElectronicClockDecorator(),
+	(e) => new ElectronicClockDecorator(clockContainer.id),
 );
-buttonMoreRoundedClock.addEventListener("click", (e) => buildRoundedView());
+buttonMoreRoundedClock.addEventListener(
+	"click",
+	(e) => new MecanicalClockDecorator(clockContainer.id),
+);
 
 //formattage à la main
 let s: string[] = [];
@@ -54,11 +51,3 @@ for (let i = -12; i < 12; i++) {
 	}
 }
 
-const node1 = new ClockNodeModel("hello", "Container", [], "world", undefined);
-let dtv = new defaultStrategyDigitalTimeView(node1, [
-	new DigitalView("hours"),
-	new DigitalView("minutes"),
-	new DigitalView("seconds"),
-]);
-
-clockContainer.appendChild(dtv.self);
