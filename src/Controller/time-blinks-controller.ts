@@ -4,14 +4,14 @@ import { GenericView } from "../View/generic-view";
 import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-strategy-digital-time-view";
 
 export class TimeBlinksController implements Controller {
-	private targettedView: View | defaultStrategyDigitalTimeView | GenericView;
+	private targettedView:  defaultStrategyDigitalTimeView ;
 	private emitter1: View;
 	private _c: number;
 	get view() {
 		return this.targettedView;
 	}
 	constructor(
-		targettedView: View | defaultStrategyDigitalTimeView | GenericView,
+		targettedView: defaultStrategyDigitalTimeView ,
 		emitter1: View,
 	) {
 		this.targettedView = targettedView;
@@ -29,91 +29,78 @@ export class TimeBlinksController implements Controller {
 		this._c++;
 		setInterval(() => {
 			this._c = 0;
-		}, 300);
+		}, 2000);
 
-		if (this.targettedView instanceof defaultStrategyDigitalTimeView) {
-			console.log("I enter in the if statement ");
+			console.log(`I enter in the if statement : this._c ${this._c}`);
+
 			if (
 				this._c == 0 &&
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[0].timestamp.className.includes("isBlinking")
+				this.targettedView.digitalViews[0].timestamp.className.includes("isBlinking")
 			) {
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[0].timestamp.className.replace("isBlinking", "");
+				
 			}
 
 			if (
 				this._c == 0 &&
 				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[1].timestamp.className.includes("isBlinking")
+					this.targettedView.digitalViews)[1].timestamp.className.includes("isBlinking")
 			) {
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[1].timestamp.className.replace("isBlinking", "");
+				
+					this.targettedView.digitalViews[1].timestamp.setAttribute('class', this.targettedView.digitalViews[1].timestamp.className
+					.split(" ")
+					.filter((e) => e != "isBlinking")
+					.reduce((acc, e) => (acc += `${e}`)) )
 			}
 			////
 			if (
 				this._c == 1 &&
 				(
 					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
+						.digitalViews
 				)[0].timestamp.className.includes("isBlinking")
 			) {
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[0].timestamp.className.replace("isBlinking", "");
+				this.targettedView.digitalViews[0].timestamp.setAttribute(
+					"class",
+					this.targettedView.digitalViews[0].timestamp.className
+						.split(" ")
+						.filter((e) => e != "isBlinking")
+						.reduce((acc, e) => (acc += `${e}`)),
+				);
 			}
 
 			if (
 				this._c == 1 &&
 				(
 					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
+						.digitalViews
 				)[1].timestamp.className.includes("isBlinking")
 			) {
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[1].timestamp.className.replace("isBlinking", "");
+this.targettedView.digitalViews[1].timestamp.setAttribute(
+	"class",
+	this.targettedView.digitalViews[1].timestamp.className
+		.split(" ")
+		.filter((e) => e != "isBlinking")
+		.reduce((acc, e) => (acc += `${e}`)),
+);
+
 			}
 
 			if (
 				this._c == 2 &&
 				!(
 					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
+						.digitalViews
 				)[0].timestamp.className.includes("isBlinking")
 			) {
 				(
 					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
+						.digitalViews
 				)[0].timestamp.className += " isBlinking ";
 			}
 
-			if (
-				this._c == 3 &&
-				!(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[1].timestamp.className.includes("isBlinking")
-			) {
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[0].timestamp.className.replace("isBlinking", "");
-				(
-					this.targettedView
-						.digitalViews as unknown as defaultStrategyDigitalTimeView
-				)[1].timestamp.className += " isBlinking ";
+			if (this._c == 3) {
+				
+					this.targettedView.digitalViews[1].timestamp.className += " isBlinking ";
 			}
 		}
 	};
-}

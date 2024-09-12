@@ -35,3 +35,13 @@ buttonMoreRoundedClock.addEventListener(
   'click',
   (e) => new MecanicalClockDecorator(clockContainer.id)
 );
+
+
+let a = "abc def ghi jkl";
+
+let b: string = a
+	.split(" ")
+	.filter((e) => e != "ghi")
+	.reduce((acc, e) => (acc += ` ${e}`));
+console.log(b);
+

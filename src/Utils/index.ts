@@ -21,18 +21,4 @@ export class Id {
   }
 }
 
-/**
- * 
- * J'aurais bien aimé déscopper ça  en utilisant certaines clés, peut etre en spécifiant des clés à utiliser dans `tree`
-Stringify = (tree: NodeModel): void => {
-  this.s += `NodeId: ${tree.IDELEMENT} - ParentId: ${
-    tree.Parent?.IDELEMENT ?? "root"
-  } - NodeType: ${tree.NodeType} - RootParent: ${tree.RootFootprint} \n`;
-  if (!!tree.Children) {
-    tree.Children.forEach((child) => {
-      this.Stringify(child);
-    });
-  }
-}; * 
- * 
- */
+
