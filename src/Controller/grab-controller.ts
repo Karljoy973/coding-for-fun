@@ -11,11 +11,11 @@ export class GrabController implements Controller {
 	}
 	constructor(view: View) {
 		this._view = view;
-		this._view.self!.addEventListener("click", this.mouseDownHandler);
+		this._view.self!.addEventListener("mousedown", this.mouseDownHandler);
 	}
 	init = () => {
 		if (!!this._view.self) {
-			this._view.self.addEventListener("click", this.mouseDownHandler);
+			this._view.self.addEventListener("mousedown", this.mouseDownHandler);
 		}
 	};
 

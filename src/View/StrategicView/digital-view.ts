@@ -3,15 +3,20 @@ import { TimeResponsibility } from "../../interfaces/types";
 import { Id } from "../../Utils";
 
 export class DigitalView {
+	private _t: boolean;
 	timestamp: HTMLSpanElement;
 	protected timeResponsibility: TimeResponsibility;
 	protected timeController: TimestampController;
-	constructor(timeResponsibiility: TimeResponsibility) {
+	constructor(timeResponsibiility: TimeResponsibility, toggle?: boolean) {
 		this.timeResponsibility = timeResponsibiility;
 		this.timestamp = document.createElement("span");
 		this.timestamp.setAttribute("id", Id.Build());
 		// this.timestamp.setAttribute("class", "ui-component");
-		this.timeController = new TimestampController();
+		if (toggle != undefined || toggle != null) {
+			toggle = false;
+		}
+		this.timeController = new TimestampController(toggle);
+
 		this.init();
 	}
 
@@ -33,5 +38,12 @@ export class DigitalView {
 				this.timestamp.innerText = this.timeController.CurrentSecond;
 			}, 10);
 		}
+	};
+	public getToggleState = () => {
+		return this._t;
+	};
+	public setToggle = (v: boolean) => {
+		this._t = v;
+		this.timeController.setHour12(v);
 	};
 }

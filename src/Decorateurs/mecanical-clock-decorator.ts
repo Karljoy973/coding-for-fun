@@ -70,6 +70,7 @@ export class MecanicalClockDecorator {
     this.rootNode.appendChild(thisModelView.self);
     thisModelView.self.appendChild(needles.self);
 
-    let grabController = new GrabController(thisModelView);
+
+    this.controllers.push(new GrabController(thisModelView));
   };
 }
