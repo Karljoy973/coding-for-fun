@@ -1,7 +1,7 @@
-import { Controller, View } from '../interfaces/types';
-import { ButtonView } from '../View/button-view';
-import { ContainerView } from '../View/container-view';
-import { defaultStrategyDigitalTimeView } from '../View/StrategicView/default-strategy-digital-time-view';
+import { Controller, View } from "../interfaces/types";
+import { ButtonView } from "../View/button-view";
+import { ContainerView } from "../View/container-view";
+import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-strategy-digital-time-view";
 
 /**
  * @class PressController
@@ -16,19 +16,19 @@ export class LightController implements Controller {
     this.init();
   }
   init = () => {
-    this._emiter.self.addEventListener('click', this.eventHandler);
+    this._emiter.self.addEventListener("click", this.eventHandler);
   };
 
   eventHandler = (e: MouseEvent) => {
     e.preventDefault();
-    if (this._view.self.className.includes('light-on')) {
+    if (this._view.self.className.includes("light-on")) {
       // this._view.self.className.replace('light-on', 'light-off');
       this._view.self.setAttribute(
-        'class',
-        'ui-component light-area light-off'
+        "class",
+        "ui-component light-area light-off",
       );
-    } else if (this._view.self.className.includes('light-off')) {
-      this._view.self.setAttribute('class', 'ui-component light-area light-on');
+    } else if (this._view.self.className.includes("light-off")) {
+      this._view.self.setAttribute("class", "ui-component light-area light-on");
     }
   };
 }

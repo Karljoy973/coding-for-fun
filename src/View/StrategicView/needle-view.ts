@@ -1,8 +1,8 @@
 //implements strategy design pattern
 
-import { TimestampController } from '../../Controller/time-stamp-controller';
-import { TimeResponsibility } from '../../interfaces/types';
-import { Id } from '../../Utils/index';
+import { TimestampController } from "../../Controller/time-stamp-controller";
+import { TimeResponsibility } from "../../interfaces/types";
+import { Id } from "../../Utils/index";
 
 export class TimeZoneController {
   utc: HTMLSpanElement;
@@ -27,14 +27,14 @@ export class NeedleView {
       [0, 0],
       [0, 0],
     ];
-    this.visibleNeedle = document.createElement('div');
-    this.needle = document.createElement('div');
+    this.visibleNeedle = document.createElement("div");
+    this.needle = document.createElement("div");
 
-    this.needle.setAttribute('id', Id.Build());
-    this.visibleNeedle.setAttribute('id', Id.Build());
+    this.needle.setAttribute("id", Id.Build());
+    this.visibleNeedle.setAttribute("id", Id.Build());
 
-    this.visibleNeedle.setAttribute('class', 'visible-needle');
-    this.needle.setAttribute('class', 'needle');
+    this.visibleNeedle.setAttribute("class", "visible-needle");
+    this.needle.setAttribute("class", "needle");
 
     this.needle.appendChild(this.visibleNeedle);
 
@@ -42,15 +42,15 @@ export class NeedleView {
     this.timeController = new TimestampController(true);
     this.a = 0;
 
-    if (this.timeResponsibility == 'hours') {
+    if (this.timeResponsibility == "hours") {
       // je pense que le soucis est là
       this.startHour();
     }
-    if (this.timeResponsibility == 'minutes') {
+    if (this.timeResponsibility == "minutes") {
       this.startMinute();
     }
 
-    if (this.timeResponsibility == 'seconds') {
+    if (this.timeResponsibility == "seconds") {
       this.startSecond();
     }
 
@@ -59,14 +59,14 @@ export class NeedleView {
 
   init = () => {
     //checker l'appel de cette fonction
-    if (this.timeResponsibility == 'hours') {
+    if (this.timeResponsibility == "hours") {
       // je pense que le soucis est là
       setInterval(this.startHour, 30000);
     }
-    if (this.timeResponsibility == 'minutes') {
+    if (this.timeResponsibility == "minutes") {
       setInterval(this.startMinute, 5000);
     }
-    if (this.timeResponsibility == 'seconds') {
+    if (this.timeResponsibility == "seconds") {
       setInterval(this.startSecond, 100);
     }
   };
@@ -92,8 +92,8 @@ export class NeedleView {
     this.needlePose[1][0] = Math.sin(-this.a + Math.PI / 12);
     this.needlePose[1][1] = Math.cos(-this.a + Math.PI / 12);
     this.needle.setAttribute(
-      'style',
-      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`
+      "style",
+      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`,
     );
     console.log(this.timeController.CurrentHour);
   };
@@ -104,8 +104,8 @@ export class NeedleView {
     this.needlePose[1][0] = Math.sin(-this.a);
     this.needlePose[1][1] = Math.cos(-this.a);
     this.needle.setAttribute(
-      'style',
-      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`
+      "style",
+      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`,
     );
   };
   startSecond = () => {
@@ -115,8 +115,8 @@ export class NeedleView {
     this.needlePose[1][0] = Math.sin(-this.a);
     this.needlePose[1][1] = Math.cos(-this.a);
     this.needle.setAttribute(
-      'style',
-      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`
+      "style",
+      `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`,
     );
   };
 }

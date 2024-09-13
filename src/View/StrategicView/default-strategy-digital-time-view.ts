@@ -1,7 +1,7 @@
-import { View, Model } from '../../interfaces/types';
-import { Id } from '../../Utils';
-import { ContainerView } from '../container-view';
-import { DigitalView } from './digital-view';
+import { View, Model } from "../../interfaces/types";
+import { Id } from "../../Utils";
+import { ContainerView } from "../container-view";
+import { DigitalView } from "./digital-view";
 
 /**
  * @class StrategyDigitalTimeView
@@ -15,13 +15,13 @@ export class defaultStrategyDigitalTimeView extends ContainerView {
   constructor(model: Model, timestamps?: DigitalView[]) {
     super(model, {
       elementSpecs: {
-        baseClasses: ' ui-component light-area ',
-        additionalClasses: ' light-off ',
+        baseClasses: " ui-component light-area ",
+        additionalClasses: " light-off ",
       },
     });
-    this.self = document.createElement('span');
-    this.self.setAttribute('id', Id.Build());
-    this.self.setAttribute('class', 'ui-component light-area light-off');
+    this.self = document.createElement("span");
+    this.self.setAttribute("id", Id.Build());
+    this.self.setAttribute("class", "ui-component light-area light-off");
     this.digitalViews = [];
     if (!!timestamps) {
       this.digitalViews = [...timestamps];

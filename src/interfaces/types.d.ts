@@ -45,5 +45,5 @@ export type TimeResponsibility = "hours" | "minutes" | "seconds";
  * or something else.
  */
 export interface StrategyTimeAreaView extends View {
-	execute(specs: any): any;
+  execute(specs: any): any;
 }

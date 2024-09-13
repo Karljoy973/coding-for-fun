@@ -20,5 +20,3 @@ export class Id {
     return `node-${instance.identifier}`;
   }
 }
-
-

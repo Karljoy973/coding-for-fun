@@ -1,9 +1,9 @@
-import { GrabController } from '../Controller/grab-controller';
-import { Controller, Model, View } from '../interfaces/types';
-import { ClockNodeModel } from '../Model/clock-node-model';
-import { Id } from '../Utils';
-import { ContainerView } from '../View/container-view';
-import { StrategicMecanicalTimeView } from '../View/StrategicView/strategic-mecanical-time-view';
+import { GrabController } from "../Controller/grab-controller";
+import { Controller, Model, View } from "../interfaces/types";
+import { ClockNodeModel } from "../Model/clock-node-model";
+import { Id } from "../Utils";
+import { ContainerView } from "../View/container-view";
+import { StrategicMecanicalTimeView } from "../View/StrategicView/strategic-mecanical-time-view";
 
 export class MecanicalClockDecorator {
   model: ClockNodeModel;
@@ -13,7 +13,7 @@ export class MecanicalClockDecorator {
   protected rootNode: HTMLElement;
   constructor(rootContainerId: string) {
     this.rootNode = document.getElementById(rootContainerId) as HTMLElement;
-    if (!this.rootNode) throw new Error('Invalid rootNode Id');
+    if (!this.rootNode) throw new Error("Invalid rootNode Id");
     this.Build();
   }
 
@@ -24,7 +24,7 @@ export class MecanicalClockDecorator {
    */
   Stringify = (tree: ClockNodeModel): void => {
     this.s += `NodeId: ${tree.IDELEMENT} - ParentId: ${
-      tree.Parent?.IDELEMENT ?? 'root'
+      tree.Parent?.IDELEMENT ?? "root"
     } - NodeType: ${tree.NodeType} - RootParent: ${tree.RootFootprint} \n`;
     if (!!tree.Children) {
       tree.Children.forEach((child) => {
@@ -48,16 +48,16 @@ export class MecanicalClockDecorator {
     let rootID = Id.Build();
     this.model = new ClockNodeModel(
       rootID,
-      'Container',
+      "Container",
       undefined,
       rootID,
-      undefined
+      undefined,
     );
 
     const thisModelView = new ContainerView(this.model, {
       elementSpecs: {
-        baseClasses: 'rounded-clock',
-        additionalClasses: '',
+        baseClasses: "rounded-clock",
+        additionalClasses: "",
       },
     });
 
@@ -69,7 +69,6 @@ export class MecanicalClockDecorator {
 
     this.rootNode.appendChild(thisModelView.self);
     thisModelView.self.appendChild(needles.self);
-
 
     this.controllers.push(new GrabController(thisModelView));
   };

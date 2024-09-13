@@ -1,6 +1,6 @@
-import { Model, View, ViewSpecs } from '../interfaces/types';
-import { Id } from '../Utils';
-import { GenericView } from './generic-view';
+import { Model, View, ViewSpecs } from "../interfaces/types";
+import { Id } from "../Utils";
+import { GenericView } from "./generic-view";
 
 /**
  * @class ContainerView
@@ -36,12 +36,12 @@ export class ContainerView extends GenericView {
   eSpecs: { baseClasses: string; additionalClasses?: string };
   constructor(
     override readonly model: Model,
-    containerSpecs: Partial<ViewSpecs>
+    containerSpecs: Partial<ViewSpecs>,
   ) {
     super(model);
-    this.self = document.createElement('div');
-    this.self.setAttribute('id', Id.Build());
-    this.eSpecs = { baseClasses: '' };
+    this.self = document.createElement("div");
+    this.self.setAttribute("id", Id.Build());
+    this.eSpecs = { baseClasses: "" };
     if (!!containerSpecs.elementSpecs) {
       Object.assign(this.eSpecs, containerSpecs.elementSpecs);
     }
@@ -53,7 +53,7 @@ export class ContainerView extends GenericView {
    *
    */
   reset = () => {
-    this.eSpecs.additionalClasses = '';
+    this.eSpecs.additionalClasses = "";
     this.update();
   };
 
@@ -84,8 +84,8 @@ export class ContainerView extends GenericView {
    */
   update = () => {
     this.self.setAttribute(
-      'class',
-      `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`
+      "class",
+      `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`,
     );
   };
 
@@ -102,7 +102,7 @@ export class ContainerView extends GenericView {
  * @param {string} s - Nom de la classe CSS à supprimer.
 	 */
   removeAdditionalContainerClass = (s: string) => {
-    this.eSpecs.additionalClasses?.replace(s, '');
+    this.eSpecs.additionalClasses?.replace(s, "");
     this.update();
   };
 

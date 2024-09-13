@@ -1,6 +1,6 @@
-import { Model, ViewSpecs } from '../interfaces/types';
-import { Id } from '../Utils/index';
-import { GenericView } from './generic-view';
+import { Model, ViewSpecs } from "../interfaces/types";
+import { Id } from "../Utils/index";
+import { GenericView } from "./generic-view";
 
 /**
  * @class ButtonView
@@ -91,26 +91,26 @@ export class ButtonView extends GenericView {
   // );
   constructor(model: Model, specs: Partial<ViewSpecs>) {
     super(model);
-    this.eSpecs = { baseClasses: '' };
-    this.iSpecs = { baseClasses: '' };
+    this.eSpecs = { baseClasses: "" };
+    this.iSpecs = { baseClasses: "" };
     if (!!specs.element) {
       this.self = specs.element;
     } else {
-      this.self = document.createElement('div');
+      this.self = document.createElement("div");
     }
 
     if (!!specs.icon) {
       this.i = specs.icon;
     } else {
-      this.i = document.createElement('i');
+      this.i = document.createElement("i");
     }
     if (!!specs.elementSpecs) Object.assign(this.eSpecs, specs.elementSpecs);
     if (!!specs.iconSpecs) Object.assign(this.iSpecs, specs.iconSpecs);
 
     this.update();
 
-    this.self.setAttribute('id', `${Id.Build()}`);
-    this.i.setAttribute('id', `${Id.Build()}`);
+    this.self.setAttribute("id", `${Id.Build()}`);
+    this.i.setAttribute("id", `${Id.Build()}`);
 
     this.self.appendChild(this.i);
   }
@@ -119,8 +119,8 @@ export class ButtonView extends GenericView {
    * Réinitialise les classes CSS supplémentaires de l'élément et de l'icône, puis déclenche une mise à jour de l'affichage.
    */
   reset = () => {
-    this.eSpecs.additionalClasses = '';
-    this.iSpecs.additionalClasses = '';
+    this.eSpecs.additionalClasses = "";
+    this.iSpecs.additionalClasses = "";
     this.update();
   };
 
@@ -169,12 +169,12 @@ export class ButtonView extends GenericView {
    */
   update = () => {
     this.self.setAttribute(
-      'class',
-      `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`
+      "class",
+      `${this.eSpecs.baseClasses} ${this.eSpecs.additionalClasses}`,
     );
     this.i.setAttribute(
-      'class',
-      `${this.iSpecs.baseClasses} ${this.iSpecs.additionalClasses}`
+      "class",
+      `${this.iSpecs.baseClasses} ${this.iSpecs.additionalClasses}`,
     );
   };
   /**
@@ -195,7 +195,7 @@ export class ButtonView extends GenericView {
    * @param s - Classe CSS à retirer.
    */
   removeAdditionalButtonClass = (s: string) => {
-    this.eSpecs.additionalClasses?.replace(s, '');
+    this.eSpecs.additionalClasses?.replace(s, "");
     this.update();
   };
   /**
@@ -204,7 +204,7 @@ export class ButtonView extends GenericView {
    * @param s - Classe CSS à retirer.
    */
   removeAdditionalIconClass = (s: string) => {
-    this.iSpecs.additionalClasses?.replace(s, '');
+    this.iSpecs.additionalClasses?.replace(s, "");
     this.update();
   };
 }

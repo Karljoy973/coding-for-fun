@@ -47,52 +47,52 @@ import { IDElement, NodeModel, NodeType } from "../interfaces/types";
  * @method removeChild - removes a node to the tree
  */
 export class ClockNodeModel implements NodeModel<ClockNodeModel> {
-	IDELEMENT: IDElement;
-	NodeType: NodeType;
-	Children: ClockNodeModel[];
-	RootFootprint: IDElement;
-	Parent: ClockNodeModel | undefined;
-	Position: { x: number; y: number; z: number };
-	Rotation: { x: number; y: number; z: number; a: number };
+  IDELEMENT: IDElement;
+  NodeType: NodeType;
+  Children: ClockNodeModel[];
+  RootFootprint: IDElement;
+  Parent: ClockNodeModel | undefined;
+  Position: { x: number; y: number; z: number };
+  Rotation: { x: number; y: number; z: number; a: number };
 
-	constructor(
-		id: string,
-		nodeType: NodeType,
-		chilren: ClockNodeModel[] | undefined,
-		rootfootprint: IDElement,
-		parent: ClockNodeModel | undefined,
-		position?: { x: number; y: number; z: number },
-		rotation?: { x: number; y: number; z: number },
-	) {
-		this.IDELEMENT = id;
-		this.NodeType = nodeType;
-		this.Children = [];
-		if (!!chilren) {
-			this.Children = [...(chilren as ClockNodeModel[])];
-		}
-		this.RootFootprint = rootfootprint;
-		this.Parent = undefined;
-		if (!!parent) {
-			this.Parent = {} as ClockNodeModel;
-			Object.assign(this.Parent as ClockNodeModel, parent);
-		}
+  constructor(
+    id: string,
+    nodeType: NodeType,
+    chilren: ClockNodeModel[] | undefined,
+    rootfootprint: IDElement,
+    parent: ClockNodeModel | undefined,
+    position?: { x: number; y: number; z: number },
+    rotation?: { x: number; y: number; z: number },
+  ) {
+    this.IDELEMENT = id;
+    this.NodeType = nodeType;
+    this.Children = [];
+    if (!!chilren) {
+      this.Children = [...(chilren as ClockNodeModel[])];
+    }
+    this.RootFootprint = rootfootprint;
+    this.Parent = undefined;
+    if (!!parent) {
+      this.Parent = {} as ClockNodeModel;
+      Object.assign(this.Parent as ClockNodeModel, parent);
+    }
 
-		this.Position = { x: 0, y: 0, z: 0 };
-		this.Rotation = { x: 0, y: 0, z: 0, a: 0 };
+    this.Position = { x: 0, y: 0, z: 0 };
+    this.Rotation = { x: 0, y: 0, z: 0, a: 0 };
 
-		if (!!position) {
-			Object.assign(this.Position, position as any);
-		}
-		if (!!rotation) {
-			Object.assign(this.Rotation, rotation as any);
-		}
-	}
+    if (!!position) {
+      Object.assign(this.Position, position as any);
+    }
+    if (!!rotation) {
+      Object.assign(this.Rotation, rotation as any);
+    }
+  }
 
-	appendChild = (child: ClockNodeModel) => {
-		this.Children!.push(child);
-	};
-	removeChild = (child: ClockNodeModel) => {
-		this.Children!.filter((e) => e.IDELEMENT != child.IDELEMENT);
-	};
-	//add responsibility to tell views to update
+  appendChild = (child: ClockNodeModel) => {
+    this.Children!.push(child);
+  };
+  removeChild = (child: ClockNodeModel) => {
+    this.Children!.filter((e) => e.IDELEMENT != child.IDELEMENT);
+  };
+  //add responsibility to tell views to update
 }
