@@ -83,7 +83,7 @@ export class TimestampController implements Controller {
 
   protected updateCurrentHour = () => {
     let now = new Date();
-    now.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+    now.setHours(now.getHours()+this._hourOffset, now.getMinutes()+this._minuteOffset, now.getSeconds());
     let cucrrent = now.toLocaleString(undefined, {
       hour: "2-digit",
       minute: "2-digit",
@@ -94,7 +94,7 @@ export class TimestampController implements Controller {
   };
   protected updateCurrentMinute = () => {
     let now = new Date();
-    now.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+    now.setHours(now.getHours(), now.getMinutes()+this._minuteOffset, now.getSeconds());
     let cucrrent = now.toLocaleString(undefined, {
       hour: "2-digit",
       minute: "2-digit",

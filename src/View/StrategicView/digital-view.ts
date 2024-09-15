@@ -44,4 +44,6 @@ export class DigitalView {
     this._t = v;
     this.timeController.setHour12(v);
   };
+
+  getController = () => this.timeController;
 }

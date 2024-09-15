@@ -1,4 +1,5 @@
 import { IDElement, NodeModel, NodeType } from "../interfaces/types";
+import { Id } from "../Utils";
 
 /**
  * @class ClockNodeModel - Gives the necessary data to build a clock in any context
@@ -47,24 +48,22 @@ import { IDElement, NodeModel, NodeType } from "../interfaces/types";
  * @method removeChild - removes a node to the tree
  */
 export class ClockNodeModel implements NodeModel<ClockNodeModel> {
-  IDELEMENT: IDElement;
+  IDELEMENT = Id.Build();
   NodeType: NodeType;
   Children: ClockNodeModel[];
-  RootFootprint: IDElement;
+  RootFootprint: IDElement|undefined;
   Parent: ClockNodeModel | undefined;
   Position: { x: number; y: number; z: number };
   Rotation: { x: number; y: number; z: number; a: number };
 
   constructor(
-    id: string,
     nodeType: NodeType,
     chilren: ClockNodeModel[] | undefined,
-    rootfootprint: IDElement,
+    rootfootprint: IDElement|undefined,
     parent: ClockNodeModel | undefined,
     position?: { x: number; y: number; z: number },
     rotation?: { x: number; y: number; z: number },
   ) {
-    this.IDELEMENT = id;
     this.NodeType = nodeType;
     this.Children = [];
     if (!!chilren) {

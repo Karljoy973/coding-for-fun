@@ -47,7 +47,6 @@ export class MecanicalClockDecorator {
     this.controllers = [];
     let rootID = Id.Build();
     this.model = new ClockNodeModel(
-      rootID,
       "Container",
       undefined,
       rootID,
@@ -70,6 +69,6 @@ export class MecanicalClockDecorator {
     this.rootNode.appendChild(thisModelView.self);
     thisModelView.self.appendChild(needles.self);
 
-    this.controllers.push(new GrabController(thisModelView));
+    this.controllers.push(new GrabController(thisModelView, thisModelView ));
   };
 }

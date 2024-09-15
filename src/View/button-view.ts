@@ -95,8 +95,9 @@ export class ButtonView extends GenericView {
     this.iSpecs = { baseClasses: "" };
     if (!!specs.element) {
       this.self = specs.element;
-    } else {
-      this.self = document.createElement("div");
+    } 
+    if (!this.self) {
+      this.self = document.createElement('div')
     }
 
     if (!!specs.icon) {

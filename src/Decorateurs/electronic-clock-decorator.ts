@@ -12,6 +12,7 @@ import { ContainerView } from "../View/container-view";
 import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-strategy-digital-time-view";
 import { DigitalView } from "../View/StrategicView/digital-view";
 import { TimeBlinksController } from "../Controller/time-blinks-controller";
+import { ForwardTimeController } from "../Controller/forward-time-controller";
 
 export class ElectronicClockDecorator {
   model: ClockNodeModel;
@@ -59,13 +60,12 @@ export class ElectronicClockDecorator {
     //autant le faire à la main.
 
     // node-1 : racine de l'horloge
-    let id = Id.Build();
     this.s = "display tree : \n";
-    const node1 = new ClockNodeModel(id, "Container", [], id, undefined);
+    const node1 = new ClockNodeModel("Container", [], undefined, undefined);
+    node1.RootFootprint = node1.IDELEMENT;
 
     // node-2 : un enfant de node-1
     const node2 = new ClockNodeModel(
-      Id.Build(),
       "Container",
       [],
       node1.IDELEMENT,
@@ -74,42 +74,36 @@ export class ElectronicClockDecorator {
 
     // Les nodes 3 à 8 sont des boutons, tous enfants de node-2
     const node3 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node2,
     );
     const node4 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node2,
     );
     const node5 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node2,
     );
     const node6 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node2,
     );
     const node7 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node2,
     );
     const node8 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
@@ -118,7 +112,6 @@ export class ElectronicClockDecorator {
 
     // node-9 : un autre enfant de node-1
     const node9 = new ClockNodeModel(
-      Id.Build(),
       "TimeArea",
       [],
       node1.IDELEMENT,
@@ -240,7 +233,6 @@ export class ElectronicClockDecorator {
     ]);
 
     const node10 = new ClockNodeModel(
-      Id.Build(),
       "Container",
       [],
       node1.IDELEMENT,
@@ -248,21 +240,18 @@ export class ElectronicClockDecorator {
     );
 
     const node11 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node10,
     );
     const node12 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
       node10,
     );
     const node13 = new ClockNodeModel(
-      Id.Build(),
       "Button",
       [],
       node1.IDELEMENT,
@@ -312,6 +301,20 @@ export class ElectronicClockDecorator {
       },
     });
 
+   let buttonViewNode14 = new ButtonView(node8, {
+      element: document.createElement("div"),
+      icon: document.createElement("i"),
+      elementSpecs: {
+        baseClasses: "ui-component button ",
+        additionalClasses: "",
+      },
+      iconSpecs: {
+        baseClasses: "fa-solid fa-maximize ",
+        additionalClasses: "",
+      },
+   }); 
+    
+    
     node1View.appendChild(node2View);
     node1View.appendChild(node9view);
     node1View.appendChild(node10View);
@@ -326,6 +329,7 @@ export class ElectronicClockDecorator {
     node10View.appendChild(buttonViewNode11);
     node10View.appendChild(buttonViewNode12);
     node10View.appendChild(buttonViewNode13);
+    node10View.appendChild(buttonViewNode14);
 
     // const timeAreaView = new defaultStrategyDigitalTimeView();
 
@@ -359,12 +363,13 @@ export class ElectronicClockDecorator {
 
     this.controllers.push(
       new DeleteController(node1View, buttonViewNode5),
-      new GrabController(node1View),
+      new GrabController(node1View, buttonViewNode14),
       new LightController(node9view, buttonViewNode3),
       new ResizeDuoController(node1View, buttonViewNode12, buttonViewNode13),
       new RotateController(node1View, buttonViewNode11),
       new UpdateTimeFormatController(node9view, buttonViewNode6),
       new TimeBlinksController(node9view, buttonViewNode4),
+      new ForwardTimeController(node9view, buttonViewNode7)
     );
     this.rootNode.appendChild(node1View.self);
 

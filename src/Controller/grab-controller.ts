@@ -5,13 +5,15 @@ import { GenericView } from "../View/generic-view";
 
 //jquery under the hood
 export class GrabController implements Controller {
-  _view: View;
+  private _view: View;
+  private _emitter: View; 
   get view() {
     return this._view;
   }
-  constructor(view: View) {
-    this._view = view;
-    this._view.self!.addEventListener("mousedown", this.mouseDownHandler);
+  constructor(targettedVeiw: View, emitter) {
+    this._view = targettedVeiw;
+    this._emitter = emitter; 
+    this._emitter.self!.addEventListener("mousedown", this.mouseDownHandler);
   }
   init = () => {
     if (!!this._view.self) {
