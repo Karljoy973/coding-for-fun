@@ -1,6 +1,4 @@
 import { Controller, View } from "../interfaces/types";
-import { ContainerView } from "../View/container-view";
-import { GenericView } from "../View/generic-view";
 import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-strategy-digital-time-view";
 
 export class TimeBlinksController implements Controller {
@@ -25,7 +23,6 @@ export class TimeBlinksController implements Controller {
       this._c = 0;
     }, 2000);
 
-    console.log(`I enter in the if statement : this._c ${this._c}`);
 
     if (
       this._c == 0 &&

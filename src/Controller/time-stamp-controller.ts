@@ -20,7 +20,6 @@ export class TimestampController implements Controller {
   protected _hourOffset: number;
   protected _minuteOffset: number;
   private timeIntervalId: NodeJS.Timeout;
-  timeFormat: boolean;
 
   constructor(hour12?: boolean) {
     this._currentHour = "";

@@ -3,7 +3,6 @@ import { Controller, View } from "../interfaces/types";
 export class RotateController implements Controller {
   emitter: View;
   targettedView: View;
-  private activated: boolean;
   private rotationMatrix: number[][];
   private currentAngle: number;
   private timeoutId: NodeJS.Timeout | undefined;
@@ -18,7 +17,6 @@ export class RotateController implements Controller {
     this.currentAngle = 0;
     this.emitter = emitter;
     this.targettedView = targettedView;
-    this.activated = false;
 
     this.emitter.self?.addEventListener(
       "mouseleave",
