@@ -1,10 +1,10 @@
 import { TimestampController } from "../../Controller/time-stamp-controller";
-import { TimeResponsibility } from "../../interfaces/types";
+import { Model, TimeResponsibility, View } from "../../interfaces/types";
 import { Id } from "../../Utils";
 
-export class DigitalView {
+export class DigitalView  {
   private _t: boolean;
-  timestamp: HTMLSpanElement;
+  timestamp: HTMLElement;
   protected timeResponsibility: TimeResponsibility;
   protected timeController: TimestampController;
   constructor(timeResponsibiility: TimeResponsibility, toggle?: boolean) {

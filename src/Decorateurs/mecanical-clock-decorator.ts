@@ -46,12 +46,7 @@ export class MecanicalClockDecorator {
   private Build = () => {
     this.controllers = [];
     let rootID = Id.Build();
-    this.model = new ClockNodeModel(
-      "Container",
-      undefined,
-      rootID,
-      undefined,
-    );
+    this.model = new ClockNodeModel("Container", undefined, rootID, undefined);
 
     const thisModelView = new ContainerView(this.model, {
       elementSpecs: {
@@ -69,6 +64,6 @@ export class MecanicalClockDecorator {
     this.rootNode.appendChild(thisModelView.self);
     thisModelView.self.appendChild(needles.self);
 
-    this.controllers.push(new GrabController(thisModelView, thisModelView ));
+    this.controllers.push(new GrabController(thisModelView, thisModelView));
   };
 }

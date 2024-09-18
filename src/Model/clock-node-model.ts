@@ -51,7 +51,7 @@ export class ClockNodeModel implements NodeModel<ClockNodeModel> {
   IDELEMENT = Id.Build();
   NodeType: NodeType;
   Children: ClockNodeModel[];
-  RootFootprint: IDElement|undefined;
+  RootFootprint: IDElement | undefined;
   Parent: ClockNodeModel | undefined;
   Position: { x: number; y: number; z: number };
   Rotation: { x: number; y: number; z: number; a: number };
@@ -59,7 +59,7 @@ export class ClockNodeModel implements NodeModel<ClockNodeModel> {
   constructor(
     nodeType: NodeType,
     chilren: ClockNodeModel[] | undefined,
-    rootfootprint: IDElement|undefined,
+    rootfootprint: IDElement | undefined,
     parent: ClockNodeModel | undefined,
     position?: { x: number; y: number; z: number },
     rotation?: { x: number; y: number; z: number },

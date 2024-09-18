@@ -8,27 +8,26 @@ import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-st
  * @description will handle the logic
  */
 export class LightController implements Controller {
-  protected _view: defaultStrategyDigitalTimeView;
+  protected _targettedView: defaultStrategyDigitalTimeView;
   protected _emiter: ButtonView;
   constructor(view: defaultStrategyDigitalTimeView, emitter: ButtonView) {
-    this._view = view;
+    this._targettedView = view;
     this._emiter = emitter;
-    this.init();
-  }
-  init = () => {
     this._emiter.self.addEventListener("click", this.eventHandler);
-  };
-
+  }
+  get view() {
+    return this._targettedView;
+}
   eventHandler = (e: MouseEvent) => {
     e.preventDefault();
-    if (this._view.self.className.includes("light-on")) {
-      // this._view.self.className.replace('light-on', 'light-off');
-      this._view.self.setAttribute(
+    if (this._targettedView.self.className.includes("light-on")) {
+      // this._targettedView.self.className.replace('light-on', 'light-off');
+      this._targettedView.self.setAttribute(
         "class",
         "ui-component light-area light-off",
       );
-    } else if (this._view.self.className.includes("light-off")) {
-      this._view.self.setAttribute("class", "ui-component light-area light-on");
+    } else if (this._targettedView.self.className.includes("light-off")) {
+      this._targettedView.self.setAttribute("class", "ui-component light-area light-on");
     }
   };
 }

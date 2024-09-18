@@ -1,7 +1,8 @@
 //implements strategy design pattern
 
 import { TimestampController } from "../../Controller/time-stamp-controller";
-import { TimeResponsibility } from "../../interfaces/types";
+import { Model, TimeResponsibility, View } from "../../interfaces/types";
+import { ClockNodeModel } from "../../Model/clock-node-model";
 import { Id } from "../../Utils/index";
 
 export class TimeZoneController {
@@ -15,7 +16,7 @@ export class TimeZoneController {
  *
  * >@argument specs - necessary sppecs to create the view
  */
-export class NeedleView {
+export class NeedleView implements View {
   protected needle: HTMLElement;
   protected needlePose: number[][];
   protected visibleNeedle: HTMLElement;
@@ -55,7 +56,12 @@ export class NeedleView {
     }
 
     this.init();
+    this.self = this.visibleNeedle;
+    this.model = new ClockNodeModel("Container", undefined, undefined, undefined)
   }
+  model: Model;
+  self?: HTMLElement;
+  create?: Function;
 
   init = () => {
     //checker l'appel de cette fonction
@@ -95,7 +101,6 @@ export class NeedleView {
       "style",
       `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`,
     );
-    console.log(this.timeController.CurrentHour);
   };
   startMinute = () => {
     this.a = (+this.timeController.CurrentMinute * Math.PI) / 30;

@@ -3,10 +3,10 @@ import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-st
 import { DigitalView } from "../View/StrategicView/digital-view";
 
 export class UpdateTimeFormatController implements Controller {
-  private _v: defaultStrategyDigitalTimeView;
+  private _targettedView: defaultStrategyDigitalTimeView;
   private _emitter: View;
   constructor(v: defaultStrategyDigitalTimeView, emitter: View) {
-    this._v = v;
+    this._targettedView = v;
     this._emitter = emitter;
     this._emitter.self?.addEventListener("click", (e) => this.update(e, v));
   }
@@ -19,6 +19,6 @@ export class UpdateTimeFormatController implements Controller {
     }
   };
   get view() {
-    return this._v;
+    return this._targettedView;
   }
 }

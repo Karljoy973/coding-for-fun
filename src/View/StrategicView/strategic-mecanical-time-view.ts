@@ -4,7 +4,7 @@ import { Id } from "../../Utils";
 import { GenericView } from "../generic-view";
 import { NeedleView } from "./needle-view";
 
-export class StrategicMecanicalTimeView extends GenericView implements View {
+export class StrategicMecanicalTimeView extends GenericView {
   needles: NeedleView[];
 
   constructor(

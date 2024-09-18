@@ -23,7 +23,6 @@ export class TimestampController implements Controller {
   timeFormat: boolean;
 
   constructor(hour12?: boolean) {
-    this.init();
     this._currentHour = "";
     this._currentMinute = "";
     this._currentSecond = "";
@@ -39,17 +38,12 @@ export class TimestampController implements Controller {
     } else {
       this.hour12 = false;
     }
+    this.updateCurrentTime();
   }
   model?: Model;
 
   eventHandler = (e: MouseEvent) => {};
-  /**
-   * @method init
-   * @description initializes the time and update it
-   */
-  init = () => {
-    this.updateCurrentTime();
-  };
+
   get CurrentHour() {
     return this._currentHour;
   }
@@ -83,7 +77,11 @@ export class TimestampController implements Controller {
 
   protected updateCurrentHour = () => {
     let now = new Date();
-    now.setHours(now.getHours()+this._hourOffset, now.getMinutes()+this._minuteOffset, now.getSeconds());
+    now.setHours(
+      now.getHours() + this._hourOffset,
+      now.getMinutes() + this._minuteOffset,
+      now.getSeconds(),
+    );
     let cucrrent = now.toLocaleString(undefined, {
       hour: "2-digit",
       minute: "2-digit",
@@ -94,7 +92,11 @@ export class TimestampController implements Controller {
   };
   protected updateCurrentMinute = () => {
     let now = new Date();
-    now.setHours(now.getHours(), now.getMinutes()+this._minuteOffset, now.getSeconds());
+    now.setHours(
+      now.getHours(),
+      now.getMinutes() + this._minuteOffset,
+      now.getSeconds(),
+    );
     let cucrrent = now.toLocaleString(undefined, {
       hour: "2-digit",
       minute: "2-digit",

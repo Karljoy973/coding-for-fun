@@ -16,7 +16,6 @@ export type IDElement = string;
 export interface ControllerTarget {
   model: Model;
   view: View;
-  init(): void;
 }
 
 export type NodeType = "Button" | "TimeArea" | "Container" | "LocalTime";

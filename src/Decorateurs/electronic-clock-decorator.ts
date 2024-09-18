@@ -65,58 +65,18 @@ export class ElectronicClockDecorator {
     node1.RootFootprint = node1.IDELEMENT;
 
     // node-2 : un enfant de node-1
-    const node2 = new ClockNodeModel(
-      "Container",
-      [],
-      node1.IDELEMENT,
-      node1,
-    );
+    const node2 = new ClockNodeModel("Container", [], node1.IDELEMENT, node1);
 
     // Les nodes 3 à 8 sont des boutons, tous enfants de node-2
-    const node3 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
-    const node4 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
-    const node5 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
-    const node6 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
-    const node7 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
-    const node8 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node2,
-    );
+    const node3 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
+    const node4 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
+    const node5 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
+    const node6 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
+    const node7 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
+    const node8 = new ClockNodeModel("Button", [], node1.IDELEMENT, node2);
 
     // node-9 : un autre enfant de node-1
-    const node9 = new ClockNodeModel(
-      "TimeArea",
-      [],
-      node1.IDELEMENT,
-      node1,
-    );
+    const node9 = new ClockNodeModel("TimeArea", [], node1.IDELEMENT, node1);
 
     // Assigner les enfants à node-1
 
@@ -232,31 +192,11 @@ export class ElectronicClockDecorator {
       new DigitalView("seconds"),
     ]);
 
-    const node10 = new ClockNodeModel(
-      "Container",
-      [],
-      node1.IDELEMENT,
-      node1,
-    );
+    const node10 = new ClockNodeModel("Container", [], node1.IDELEMENT, node1);
 
-    const node11 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node10,
-    );
-    const node12 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node10,
-    );
-    const node13 = new ClockNodeModel(
-      "Button",
-      [],
-      node1.IDELEMENT,
-      node10,
-    );
+    const node11 = new ClockNodeModel("Button", [], node1.IDELEMENT, node10);
+    const node12 = new ClockNodeModel("Button", [], node1.IDELEMENT, node10);
+    const node13 = new ClockNodeModel("Button", [], node1.IDELEMENT, node10);
 
     const node10View = new ContainerView(node10, {
       elementSpecs: {
@@ -301,7 +241,7 @@ export class ElectronicClockDecorator {
       },
     });
 
-   let buttonViewNode14 = new ButtonView(node8, {
+    let buttonViewNode14 = new ButtonView(node8, {
       element: document.createElement("div"),
       icon: document.createElement("i"),
       elementSpecs: {
@@ -312,9 +252,8 @@ export class ElectronicClockDecorator {
         baseClasses: "fa-solid fa-maximize ",
         additionalClasses: "",
       },
-   }); 
-    
-    
+    });
+
     node1View.appendChild(node2View);
     node1View.appendChild(node9view);
     node1View.appendChild(node10View);
@@ -369,7 +308,7 @@ export class ElectronicClockDecorator {
       new RotateController(node1View, buttonViewNode11),
       new UpdateTimeFormatController(node9view, buttonViewNode6),
       new TimeBlinksController(node9view, buttonViewNode4),
-      new ForwardTimeController(node9view, buttonViewNode7)
+      new ForwardTimeController(node9view, buttonViewNode7),
     );
     this.rootNode.appendChild(node1View.self);
 
