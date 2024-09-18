@@ -89,14 +89,12 @@ export class NeedleView implements View {
   };
 
   startHour = () => {
-    ((+this.timeController.CurrentHour +
-      +this.timeController.CurrentMinute / 60) *
-      Math.PI) /
-      6;
-    this.needlePose[0][0] = Math.cos(-this.a + Math.PI / 12);
-    this.needlePose[0][1] = -Math.sin(-this.a + Math.PI / 12);
-    this.needlePose[1][0] = Math.sin(-this.a + Math.PI / 12);
-    this.needlePose[1][1] = Math.cos(-this.a + Math.PI / 12);
+    ((+this.timeController.CurrentHour * Math.PI/12 +
+      +this.timeController.CurrentMinute / 60))*Math.PI ;
+    this.needlePose[0][0] = Math.cos(-this.a + 5*Math.PI / 12);
+    this.needlePose[0][1] = -Math.sin(-this.a + 5*Math.PI / 12);
+    this.needlePose[1][0] = Math.sin(-this.a + 5*Math.PI / 12);
+    this.needlePose[1][1] = Math.cos(-this.a + 5*Math.PI / 12);
     this.needle.setAttribute(
       "style",
       `transform: matrix(${this.needlePose[0][0]}, ${this.needlePose[0][1]}, ${this.needlePose[1][0]}, ${this.needlePose[1][1]}, 0, 0  );`,

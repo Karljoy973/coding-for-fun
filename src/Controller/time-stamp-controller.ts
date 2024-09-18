@@ -41,7 +41,6 @@ export class TimestampController implements Controller {
   }
   model?: Model;
 
-  eventHandler = (e: MouseEvent) => {};
 
   get CurrentHour() {
     return this._currentHour;
@@ -113,7 +112,6 @@ export class TimestampController implements Controller {
       second: "2-digit",
       hour12: this.hour12,
     });
-    this._currentSecond =
-      cucrrent[cucrrent.length - 2] + cucrrent[cucrrent.length - 1];
+    this._currentSecond =cucrrent[6]+cucrrent[7]
   };
 }

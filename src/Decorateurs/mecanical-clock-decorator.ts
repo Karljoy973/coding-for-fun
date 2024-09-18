@@ -1,7 +1,9 @@
+import { DeleteController } from '../Controller/delete-controller';
 import { GrabController } from "../Controller/grab-controller";
 import { Controller, Model, View } from "../interfaces/types";
 import { ClockNodeModel } from "../Model/clock-node-model";
 import { Id } from "../Utils";
+import { ButtonView } from '../View/button-view';
 import { ContainerView } from "../View/container-view";
 import { StrategicMecanicalTimeView } from "../View/StrategicView/strategic-mecanical-time-view";
 
@@ -61,9 +63,19 @@ export class MecanicalClockDecorator {
       numberOfSecondNeedles: 1,
     });
 
-    this.rootNode.appendChild(thisModelView.self);
-    thisModelView.self.appendChild(needles.self);
+    let DeleteButtonModel = new ClockNodeModel('Button', undefined, this.model.IDELEMENT, this.model)
+    let deleteButtonView = new ButtonView(DeleteButtonModel, {elementSpecs: {baseClasses: "button out"}, iconSpecs: {baseClasses: "fa-solid fa-xmark"}})
 
-    this.controllers.push(new GrabController(thisModelView, thisModelView));
+
+    this.rootNode.appendChild(thisModelView.self);
+  thisModelView.self.appendChild(deleteButtonView.self)
+    thisModelView.self.appendChild(needles.self);
+    this.model.appendChild(DeleteButtonModel)
+
+
+
+
+
+    this.controllers.push(new GrabController(thisModelView, thisModelView), new DeleteController(thisModelView, deleteButtonView));
   };
 }

@@ -13,6 +13,9 @@ import { defaultStrategyDigitalTimeView } from "../View/StrategicView/default-st
 import { DigitalView } from "../View/StrategicView/digital-view";
 import { TimeBlinksController } from "../Controller/time-blinks-controller";
 import { ForwardTimeController } from "../Controller/forward-time-controller";
+import { ResizeDownController } from '../Controller/resize-down-controller';
+import { ResizeUpController } from '../Controller/resize-up-controller';
+import { ResetHourController } from '../Controller/reset-hour-controller';
 
 export class ElectronicClockDecorator {
   model: ClockNodeModel;
@@ -304,11 +307,13 @@ export class ElectronicClockDecorator {
       new DeleteController(node1View, buttonViewNode5),
       new GrabController(node1View, buttonViewNode14),
       new LightController(node9view, buttonViewNode3),
-      new ResizeDuoController(node1View, buttonViewNode12, buttonViewNode13),
+      new ResizeUpController(node1View, buttonViewNode12),
+      new ResizeDownController(node1View,  buttonViewNode13),
       new RotateController(node1View, buttonViewNode11),
       new UpdateTimeFormatController(node9view, buttonViewNode6),
       new TimeBlinksController(node9view, buttonViewNode4),
       new ForwardTimeController(node9view, buttonViewNode7),
+      new ResetHourController(node9view,buttonViewNode8 )
     );
     this.rootNode.appendChild(node1View.self);
 

@@ -55,9 +55,16 @@ body {
   margin: 5px;
   border-radius: 10%;
 }
+.out {
+  position: relative;
+  transform: translate(110px, -110px );
+  width: fit-content;
+  height: fit-content;
+}
 
 .button:hover {
   border: 2px solid aliceblue;
+  
 }
 
 .more-clock-button {
@@ -169,3 +176,5 @@ body {
   display: flex;
   align-items: flex-start;
 }
+
+
