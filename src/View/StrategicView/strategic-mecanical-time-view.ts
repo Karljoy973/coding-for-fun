@@ -23,7 +23,7 @@ export class StrategicMecanicalTimeView extends GenericView {
     this.self.setAttribute("id", Id.Build());
     this.self.setAttribute("class", "ui-component rounded-clock");
     for (let i = 0; i < Needles.numberOfHourNeedles; i++) {}
-
+ 
     if (Needles.numberOfHourNeedles < 0) Needles.numberOfHourNeedles = 0;
     if (Needles.numberOfMinuteNeedles < 0) Needles.numberOfMinuteNeedles = 0;
     if (Needles.numberOfSecondNeedles < 0) Needles.numberOfSecondNeedles = 0;
