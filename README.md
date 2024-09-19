@@ -1,7 +1,10 @@
 ## Initialisation du projet : 
 
-git clone https://github.com/Karljoy973/visual-math.git && git checkout clock && npm install && npm run start 
+Linux Users :
+git clone https://github.com/Karljoy973/visual-math.git && cd visual-math && git checkout clock && npm install && npm run start 
 
+Windows Powershell Users : 
+git clone https://github.com/Karljoy973/visual-math.git | cd .\visual-math\ | git checkout clock | npm install | npm run start
 
 # Features 
 
